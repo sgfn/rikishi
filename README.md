@@ -11,13 +11,6 @@ rikishi -- a **fair** app for moderating sumo competitions
 
 ### Install and run
 
-```bash
-./gradlew build
-./gradlew run
-```
+TBA
 
-### Test
-
-```bash
-./gradlew test
-```
+Refer to [frontend](frontend/README.md) and [backend](backend/README.md) READMEs.
