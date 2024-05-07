@@ -7,7 +7,7 @@
 ## Install and run
 
 ```bash
-./gradlew run
+./gradlew bootRun
 ```
 
 ## Test
