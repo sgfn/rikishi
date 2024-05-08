@@ -1,4 +1,9 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+
+import axios from 'axios';
+
+import { backendUrl } from '../config.js';
 import icon from '../../assets/icon.svg';
 import './App.css';
 
@@ -40,6 +45,15 @@ function Hello() {
 }
 
 export default function App() {
+  // TODO: this healthcheck should be called periodically
+  useEffect(() => {
+    axios.get(`${backendUrl}/health`).then(response => {
+      console.log('Healthcheck successful');
+    }).catch(error => {
+      console.error('Unable to communicate with backend:', error);
+    });
+  }, []);
+
   return (
     <Router>
       <Routes>
