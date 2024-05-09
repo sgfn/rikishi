@@ -1,4 +1,4 @@
-package com.rikishi.rikishi;
+package com.rikishi.rikishi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
