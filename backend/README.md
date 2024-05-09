@@ -7,11 +7,19 @@
 ## Install and run
 
 ```bash
-./gradlew run
+./gradlew bootRun
 ```
+
+## Development
 
 ## Test
 
 ```bash
 ./gradlew test
+```
+
+### Lint
+
+```bash
+./gradlew spotlessApply
 ```
