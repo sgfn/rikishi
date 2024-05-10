@@ -14,6 +14,13 @@ Start the app in the `dev` environment:
 npm start
 ```
 
+### Lint
+
+```bash
+npm run lint
+npm run lint-fix    # to auto-correct some issues
+```
+
 ## Packaging for Production
 
 To package apps for the local platform:
@@ -37,7 +44,3 @@ Następnie odpalamy serwer:
 json-server --watch db_test/db.json --port 8000
 ```
 
-## Co zrobiłem
-
-1. Widok listy sumoków, pozycje pokazują tylko id, imię, wagę i kategorię, bo to jest w sumie najważniejsze, takie szczegóły jak kraj czy wiek zostawiłbym na stronę ze zdjęciem. Na taką stronę przenosimy się po kliknięciu w pozycje. Oczywiście na razie to pusta strona bo nie tego dotyczył ten task
-2. Dałem 3 buttony, exit, sortowanie, filtrowanie. Oczywiście dwa ostatnie nie działają bo ten task nie dotyczył filtrowania/sortowania, to tylko taka moja koncepcja jak to może wyglądać.
