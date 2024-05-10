@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../config.js';
 import './App.css';
 import ContestantsList from '../components/ContestantsList';
+import ContestantProfile from '../components/ContestantProfile';
 
 export default function App() {
   // TODO: this healthcheck should be called periodically
@@ -22,7 +23,9 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ContestantsList />} />
+      	{/*TODO: main page component to root '/' path */}
+        <Route exact path="/contestants" element={<ContestantsList />} />
+        <Route exact path="/contestants/:id" element={<ContestantProfile />} />
       </Routes>
     </Router>
   );

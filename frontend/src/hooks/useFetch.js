@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-// hook do fetchowania danych. Nie wiem czy będzie trzeba więcej niż raz to robić ale mimo wszystko większy porządek jest
+// hook to wczytywania danych
 const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);

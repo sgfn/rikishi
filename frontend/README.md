@@ -31,7 +31,7 @@ npm run package
 
 ## Testowanie
 
-Aby przetestować fetchowanie i widok listy pozwoliłem sobie skorzystać z json-server
+Aby przetestować frontend trzeba skorzystać z json-server
 
 Instalacja:
 ```bash
@@ -43,4 +43,3 @@ Następnie odpalamy serwer:
 ```bash
 json-server --watch db_test/db.json --port 8000
 ```
-
