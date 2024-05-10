@@ -4,9 +4,7 @@ import './ContestantProfile.css';
 import exitIcon from '../../assets/icons/exit.png';
 
 function ContestantProfile() {
-  // const {id} = useParams();
-  // Normalnie powinien brać parametry z linku, dla testu na razie to hardcoduje
-  const id = 2;
+  const {id} = useParams();
   const {
     data: contestant,
     isPending,
