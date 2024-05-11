@@ -2,9 +2,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import './MainView.css';
-import startPhoto from "../../assets/sumuStart.jpg"
-
-
+import startPhoto from '../../assets/sumuStart.jpg';
 
 function MainView() {
   const navigator = useNavigate();
@@ -13,18 +11,19 @@ function MainView() {
     navigator('/contestants');
   };
   return (
-      <div className="main-view">
-            <h2>Welcome to the sumo competition!</h2>
-            <img className="start-photo" src={startPhoto} alt="startPhoto" />
-            <div className="button-container">
-                <button  onClick={handleConstants} type="button" className="goToContestantsList" >Go to Contestants list
-                </button>
-            </div>
+    <div className="main-view">
+      <h2>Welcome to the sumo competition!</h2>
+      <img className="start-photo" src={startPhoto} alt="startPhoto" />
+      <div className="button-container">
+        <button
+          onClick={handleConstants}
+          type="button"
+          className="goToContestantsList"
+        >
+          Go to Contestants list
+        </button>
       </div>
-
-        
-  
-
+    </div>
   );
 }
 
