@@ -25,7 +25,6 @@ export default function App() {
     <div>
       <Router>
         <Routes>
-          {/* TODO: main page component to root '/' path */}
           <Route exact path="/" element={<MainView />} />
           <Route exact path="/contestants" element={<ContestantsList />} />
           <Route exact path="/contestants/:id" element={<ContestantProfile />} />

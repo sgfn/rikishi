@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Link, useNavigate } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
 import './MainView.css';
 import startPhoto from '../../assets/sumuStart.jpg';
 
