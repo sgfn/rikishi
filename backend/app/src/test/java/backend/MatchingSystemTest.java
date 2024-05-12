@@ -6,9 +6,7 @@ import backend.matching.systems.TreeBracket;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class MatchingSystemTest {
     @Test
@@ -22,5 +20,22 @@ public class MatchingSystemTest {
 
         Assertions.assertTrue(bracket.getCurrentPlayers().contains(player));
         Assertions.assertFalse(bracket.getCurrentPlayers().contains(new Player()));
+    }
+
+    @Test
+    public void allPlayersTest() {
+        List<Player> players = List.of(
+                new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
+        );
+        MatchingSystem bracket = new TreeBracket();
+        bracket.loadPlayers(players);
+
+        Set<Player> allPlayers = new HashSet<>();
+        for (int i = 0; i < 4; i++){
+            allPlayers.addAll(bracket.getCurrentPlayers());
+            bracket.nextMatch();
+        }
+
+        Assertions.assertEquals( 8, allPlayers.size());
     }
 }

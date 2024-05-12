@@ -32,19 +32,23 @@ public class TreeBracket implements MatchingSystem {
         Set<Player> players = new HashSet<>();
         if (arrayTree.isEmpty()) return players;
         if (arrayTree.size() <= (actualMatch + 1) * 2) throw new RuntimeException("Players are out of bound");
+        players.add(arrayTree.get((actualMatch + 1) * 2 - 1));
         players.add(arrayTree.get((actualMatch + 1) * 2));
-        players.add(arrayTree.get((actualMatch + 1) * 2 + 1));
         return players;
     }
 
     @Override
     public void loadPlayers(Collection<Player> players) {
-        for(int i = 0; i < players.size()*2 -1; i++) {
-            arrayTree.add(null);
-        }
+        currentRound = OctetRoundName.FIRST_FIGHT;
         actualMatch = OctetRoundName.FIRST_FIGHT.getIndexStart();
-        for (int i = 7; i < 15; i++) {
-            arrayTree.set(i, players.iterator().next());
-        }
+        if (players.size() == 8) {
+            for (int i = 0; i < players.size() * 2 - 1; i++) {
+                arrayTree.add(null);
+            }
+            Iterator<Player> it = players.iterator();
+            for (int i = 7; i < 15 && it.hasNext(); i++) {
+                arrayTree.set(i, it.next()); // Assign the next player
+            }
+            } else throw new RuntimeException("implement only for 8 players");
     }
 }
