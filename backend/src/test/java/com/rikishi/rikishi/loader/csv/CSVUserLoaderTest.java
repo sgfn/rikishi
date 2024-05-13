@@ -1,6 +1,7 @@
 package com.rikishi.rikishi.loader.csv;
 
 import com.rikishi.rikishi.ResourceManager;
+import com.rikishi.rikishi.model.Sex;
 import com.rikishi.rikishi.model.User;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +24,8 @@ class CSVUserLoaderTest {
         assertEquals(2, actual.size());
 
         var expected = Set.of(
-            new User(0, "Janusz", "Kowalski", 16, 45.5, "pl", "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg"),
-            new User(1, "Anna", "Nowak", 18, 42.75, "pl", "https://img.freepik.com/free-photo/3d-illustration-cute-cartoon-girl-blue-jacket-glasses_1142-41044.jpg")
+            new User(0, "Janusz", "Kowalski", 16, 45.5, Sex.MALE, "pl", "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg"),
+            new User(1, "Anna", "Nowak", 18, 42.75, Sex.FEMALE, "pl", "https://img.freepik.com/free-photo/3d-illustration-cute-cartoon-girl-blue-jacket-glasses_1142-41044.jpg")
         );
 
         assertEquals(expected, new HashSet<>(actual));
