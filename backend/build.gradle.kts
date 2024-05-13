@@ -19,6 +19,12 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // https://mvnrepository.com/artifact/com.opencsv/opencsv
+    implementation("com.opencsv:opencsv:5.9")
+
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    implementation("org.jetbrains:annotations:24.1.0")
 }
 
 tasks.withType<Test> {
