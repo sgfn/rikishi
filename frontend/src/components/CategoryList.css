@@ -1,94 +1,86 @@
 .category-preview {
-    padding: 10px 16px;
-    margin: 0 2px 10px 25%;
-    border-bottom: 1px solid #fafafa;
-    background-color: rgba(151, 107, 147, 0.35);
-  }
-  
-  .category-preview p {
-    font-size: 23px;
-  }
-  
-  .category-preview:hover {
-    box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-    background-color: rgba(151, 107, 147, 0.86);
-  }
-  .category-preview a {
-    text-decoration: none;
-  }
-    
-  h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 50px;
-  }
-  
-  
-  .category-list {
-    overflow-y: scroll;
-    height: 850px;
-    margin-right: 20%;
-  }
-  
-  .filter-button {
-    top: 5%;
-    right: 50px;
-    padding: 15px 15px;
-    position: absolute;
-    background: transparent;
-    border: none;
-    border-radius: 100%;
-  }
-  
-  .filter-button:hover {
-    background: rgba(189, 177, 177, 0.35);
-  }
-  
-  .sort-button {
-    top: 5%;
-    right: 125px;
-    padding: 15px 15px;
-    position: absolute;
-    background: transparent;
-    border: none;
-    border-radius: 100%;
-  }
-  
-  .sort-button:hover {
-    background: rgba(189, 177, 177, 0.35);
-  }
-  
-  .exit-button {
-    top: 5%;
-    left: 125px;
-    padding: 15px 15px;
-    position: absolute;
-    background: transparent;
-    border: none;
-    border-radius: 100%;
-  }
-  
-  .exit-button:hover {
-    background: rgba(189, 177, 177, 0.35);
-  }
-  
-  img {
-    height: 30px;
-    width: 30px;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-  }
-  
-  .loading-message {
-    text-align: center;
-  }
-  
-  
-  
-  
-  
-  
-  
+  padding: 10px 16px;
+  margin: 0 2px 10px 25%;
+  border-bottom: 1px solid #fafafa;
+  background-color: rgba(151, 107, 147, 0.35);
+}
+
+.category-preview p {
+  font-size: 23px;
+}
+
+.category-preview:hover {
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgba(151, 107, 147, 0.86);
+}
+.category-preview a {
+  text-decoration: none;
+}
+
+h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 50px;
+}
+
+.category-list {
+  overflow-y: scroll;
+  height: 850px;
+  margin-right: 20%;
+}
+
+.filter-button {
+  top: 5%;
+  right: 50px;
+  padding: 15px 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+.filter-button:hover {
+  background: rgba(189, 177, 177, 0.35);
+}
+
+.sort-button {
+  top: 5%;
+  right: 125px;
+  padding: 15px 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+.sort-button:hover {
+  background: rgba(189, 177, 177, 0.35);
+}
+
+.exit-button {
+  top: 5%;
+  left: 125px;
+  padding: 15px 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+.exit-button:hover {
+  background: rgba(189, 177, 177, 0.35);
+}
+
+img {
+  height: 30px;
+  width: 30px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+}
+
+.loading-message {
+  text-align: center;
+}
