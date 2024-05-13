@@ -26,22 +26,23 @@ tasks.withType<Test> {
 }
 
 spotless {
-  format("misc", {
-    target("*.gradle.kts", ".gitattributes", ".gitignore")
+    format("misc") {
+        target("*.gradle.kts", ".gitattributes", ".gitignore")
 
-    trimTrailingWhitespace()
-    indentWithSpaces()
-    endWithNewline()
-  })
-  java {
-    // use the default importOrder configuration
-    importOrder()
-    removeUnusedImports()
-    // cleanthat will perform some refactors
-    cleanthat()
-    // apply a specific flavor of google-java-format
-    googleJavaFormat("1.22.0").aosp().reflowLongStrings().skipJavadocFormatting()
-    // fix formatting of type annotations
-    formatAnnotations()
-  }
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+
+    java {
+        // use the default importOrder configuration
+        importOrder()
+        removeUnusedImports()
+        // cleanthat will perform some refactors
+        cleanthat()
+        // apply a specific flavor of google-java-format
+        googleJavaFormat("1.22.0").aosp().reflowLongStrings().skipJavadocFormatting()
+        // fix formatting of type annotations
+        formatAnnotations()
+    }
 }
