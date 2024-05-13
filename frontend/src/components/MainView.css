@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   margin-top: 0px;
+
 }
 
 .start-photo {
@@ -15,4 +16,5 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 10px;
 }

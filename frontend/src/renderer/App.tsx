@@ -6,6 +6,9 @@ import './App.css';
 import ContestantsList from '../components/ContestantsList';
 import ContestantProfile from '../components/ContestantProfile';
 import MainView from '../components/MainView.js';
+import DuelList from '../components/DuelList.js';
+import CategoryList from '../components/CategoryList.js';
+import Duel from '../components/Duel';
 
 export default function App() {
   // TODO: this healthcheck should be called periodically
@@ -27,7 +30,10 @@ export default function App() {
         <Routes>
           <Route exact path="/" element={<MainView />} />
           <Route exact path="/contestants" element={<ContestantsList />} />
+          <Route exact path="/categories/:category" element={<DuelList />} />
+          <Route exact path="/categories" element={<CategoryList />} />
           <Route exact path="/contestants/:id" element={<ContestantProfile />} />
+          <Route exact path="/duels/:weightCategory/:id1Contestant/:id2Contestant" element={<Duel />} />
         </Routes>
       </Router>
     </div>

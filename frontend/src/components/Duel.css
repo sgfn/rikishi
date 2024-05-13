@@ -1,0 +1,82 @@
+.contestant-profile {
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    margin-bottom: 50px;
+  }
+  
+  .contestant-profile-container {
+    outline: 5px solid rgba(151, 107, 147, 0.86);
+    border-radius: 25px;
+    height: 525px;
+  }
+  
+  .contestant-profile-image {
+    margin-top: 20px;
+    height: 300px;
+    width: 250px;
+    border-radius: 10px;
+  }
+  
+  .exit-icon {
+    height: 30px;
+    width: 30px;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .contestant-stats p {
+    text-align: left;
+    margin-left: 25px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .p-right {
+    margin-right: 25px;
+  }
+  
+  button  {
+    margin-top: 35px;
+    background: rgba(151, 107, 147, 0.35);
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+  
+  }
+  
+  button:hover {
+    background: rgba(151, 107, 147, 0.86)
+  }
+  
+  .buttons-container {
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .exit-button {
+    top: 5%;
+    left: 125px;
+    padding: 15px 15px;
+    position: absolute;
+    background: transparent;
+    border: none;
+    border-radius: 100%;
+  }
+  
+  .exit-button:hover {
+    background: rgba(189, 177, 177, 0.35);
+  }
+  p {
+    font-size: 40px;
+  }
+  
+  
