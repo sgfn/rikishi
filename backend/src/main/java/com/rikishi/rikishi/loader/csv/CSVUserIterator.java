@@ -1,6 +1,7 @@
 package com.rikishi.rikishi.loader.csv;
 
 import com.opencsv.CSVReader;
+import com.rikishi.rikishi.model.Sex;
 import com.rikishi.rikishi.model.User;
 
 import java.io.Closeable;
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 class CSVUserIterator implements Iterator<User>, Closeable {
-    private final static int FIELD_COUNT = 7;
+    private final static int FIELD_COUNT = 8;
 
     private final CSVReader reader;
     private final Iterator<String[]> csvIt;
@@ -44,8 +45,9 @@ class CSVUserIterator implements Iterator<User>, Closeable {
             data[2],
             Integer.parseInt(data[3]),
             Double.parseDouble(data[4]),
-            data[5],
-            data[6]
+            Sex.fromString(data[5]).orElseThrow(),
+            data[6],
+            data[7]
         );
     }
 

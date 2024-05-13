@@ -6,6 +6,7 @@ public record User(
     String lastname,
     int age,
     double weight,
+    Sex sex,
     String country,
     String photoLink
 ) {}
