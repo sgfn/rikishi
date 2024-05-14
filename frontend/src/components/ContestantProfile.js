@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import './ContestantProfile.css';
 import exitIcon from '../../assets/icons/exit.png';
 
 function ContestantProfile() {
-  const {id} = useParams();
+  const { id } = useParams();
   const {
     data: contestant,
     isPending,
