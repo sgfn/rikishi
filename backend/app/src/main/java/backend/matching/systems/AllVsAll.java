@@ -34,6 +34,7 @@ public class AllVsAll implements MatchingSystem {
     }
 
     public void resultsListInit(int xSize, int ySize, int zSize) {
+//        create numOfPlayers*numOfPlayers*2 matrix
         for (int i = 0; i < xSize; i++) {
             List<List<Integer>> yList = new ArrayList<>();
             for (int j = 0; j < ySize; j++) {
@@ -66,6 +67,7 @@ public class AllVsAll implements MatchingSystem {
 
     @Override
     public void nextMatch() {
+//        walking on the diagonal of the matrix
         if (matchInProgress) {
             throw new IllegalStateException("Match is still in progress");
         }
@@ -94,6 +96,7 @@ public class AllVsAll implements MatchingSystem {
             winnerId = currentRow;
         }
         int currentValue = results.get(winnerId).get(loserId).get(0);
+//        if we play to 2 wins
         if (currentValue == 2 || results.get(winnerId).get(loserId).get(1) == 2) {
             throw new IllegalArgumentException("Match has been settled earlier");
         }
