@@ -5,9 +5,11 @@ import backend.matching.systems.MatchingSystem;
 import backend.matching.systems.TreeBracket;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
+@SpringBootTest
 public class MatchingSystemTest {
     @Test
     public void TreeBracketTest() {

@@ -49,6 +49,15 @@ public class TreeBracket implements MatchingSystem {
             for (int i = 7; i < 15 && it.hasNext(); i++) {
                 arrayTree.set(i, it.next()); // Assign the next player
             }
-            } else throw new RuntimeException("implement only for 8 players");
+        } else if (5 < players.size() < 8) {
+            for (int i = 0; i < 15; i++) {
+                arrayTree.add(null);
+            }
+            int free_tickets = 8 - players.size();
+            for (int i = 1; i < 8; i = ((i - 1) % 7) + 1) {
+                System.out.println(i);
+            }
+
+        } else throw new RuntimeException("implement only for 8 players");
     }
 }
