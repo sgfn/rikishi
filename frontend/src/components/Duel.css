@@ -21,6 +21,7 @@ h2 {
 .exit-button:hover {
   background: rgba(189, 177, 177, 0.35);
 }
-p {
-  font-size: 40px;
+
+.text-duel{
+  font-size:40px;
 }

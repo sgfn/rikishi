@@ -34,9 +34,9 @@ function Duel() {
       <div className="contestant-profile">
         {isPending1 && isPending2 && <div>Loading...</div>}
         {error1 && error2 && <div className="error">{error1}</div>}
-        {contestant1 && <p>{contestant1.name}</p>}
-        <p>VS</p>
-        {contestant2 && <p>{contestant2.name}</p>}
+        {contestant1 && <p className="text-duel">{contestant1.name}</p>}
+        <p className="text-duel">VS</p>
+        {contestant2 && <p className="text-duel">{contestant2.name}</p>}
       </div>
     </>
   );
