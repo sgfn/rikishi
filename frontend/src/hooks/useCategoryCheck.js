@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
-// hook do wczytywania danych
-const useFetch = (url) => {
-  const [data, setData] = useState(null);
-  const [isPending, setIsPending] = useState(true);
+// hook do sprawdzania prawidłowości kategorii wagowej zawodnika
+const useCategoryCheck = (url) => {
+  const [wrongCategoryFlag, setWrongCategoryFlag] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -11,14 +10,13 @@ const useFetch = (url) => {
     fetch(url, { signal: abort.signal })
       .then((res) => {
         if (!res.ok) {
-          throw Error('Could not fetch data.');
+          throw Error('Could not check weight category.');
         }
         return res.json();
       })
       // eslint-disable-next-line @typescript-eslint/no-shadow,promise/always-return
       .then((data) => {
-        setData(data);
-        setIsPending(false);
+        setWrongCategoryFlag(data.flag);
         setError(null);
       })
       .catch((err) => {
@@ -27,12 +25,11 @@ const useFetch = (url) => {
           console.log('Fetch aborted');
         } else {
           setError(err.message);
-          setIsPending(false);
         }
       });
     return () => abort.abort();
   }, [url]);
-  return { data, isPending, error };
+  return { wrongCategoryFlag, error };
 };
 
-export default useFetch;
+export default useCategoryCheck;
