@@ -3,6 +3,7 @@ package com.rikishi.rikishi.loader.csv;
 import com.opencsv.CSVReader;
 import com.rikishi.rikishi.loader.UserLoader;
 import com.rikishi.rikishi.model.User;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,6 +14,7 @@ import java.nio.file.Path;
  * Loads userdata from a CSV file
  * @apiNote The CSV file should be without a header
  */
+@Component
 public class CSVUserLoader implements UserLoader {
 
     @Override
