@@ -1,5 +1,7 @@
 package com.rikishi.rikishi.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,5 +27,15 @@ public enum Sex {
             case "f" -> Optional.of(FEMALE);
             default -> Optional.empty();
         };
+    }
+
+    @JsonCreator
+    public static Sex forValue(String s) {
+        return fromString(s).orElseThrow();
+    }
+
+    @JsonValue
+    public String toValue() {
+        return toString();
     }
 }
