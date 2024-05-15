@@ -3,6 +3,7 @@ package com.rikishi.rikishi.loader.csv;
 import com.opencsv.CSVReader;
 import com.rikishi.rikishi.model.Sex;
 import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.provider.ConfigProvider;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -10,14 +11,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 class CSVUserIterator implements Iterator<User>, Closeable {
-    private final static int FIELD_COUNT = 8;
+    private final static int FIELD_COUNT = 9;
 
     private final CSVReader reader;
     private final Iterator<String[]> csvIt;
 
-    public CSVUserIterator(CSVReader reader) {
+    private final ConfigProvider configProvider;
+
+    public CSVUserIterator(CSVReader reader, ConfigProvider configProvider) {
         this.reader = reader;
         csvIt = reader.iterator();
+        this.configProvider = configProvider;
     }
 
     @Override
@@ -45,9 +49,10 @@ class CSVUserIterator implements Iterator<User>, Closeable {
             data[2],
             Integer.parseInt(data[3]),
             Double.parseDouble(data[4]),
-            Sex.fromString(data[5]).orElseThrow(),
-            data[6],
-            data[7]
+            configProvider.getWeightClassById(Long.parseLong(data[5])).orElseThrow(),
+            Sex.fromString(data[6]).orElseThrow(),
+            data[7],
+            data[8]
         );
     }
 

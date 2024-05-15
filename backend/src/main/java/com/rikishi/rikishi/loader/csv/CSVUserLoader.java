@@ -3,6 +3,7 @@ package com.rikishi.rikishi.loader.csv;
 import com.opencsv.CSVReader;
 import com.rikishi.rikishi.loader.UserLoader;
 import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.provider.ConfigProvider;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -16,6 +17,11 @@ import java.nio.file.Path;
  */
 @Component
 public class CSVUserLoader implements UserLoader {
+    private final ConfigProvider configProvider;
+
+    public CSVUserLoader(ConfigProvider configProvider) {
+        this.configProvider = configProvider;
+    }
 
     @Override
     public Iterable<User> load(Path path) throws IOException {
@@ -25,6 +31,6 @@ public class CSVUserLoader implements UserLoader {
 
     @Override
     public Iterable<User> load(Reader reader) {
-        return () -> new CSVUserIterator(new CSVReader(reader));
+        return () -> new CSVUserIterator(new CSVReader(reader), configProvider);
     }
 }
