@@ -1,0 +1,211 @@
+{
+    "weightClasses": [
+        {
+            "id": 0,
+            "name": "Jr. Men Light-weight",
+            "sex": "m",
+            "weight": {
+                "to": 80
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 1,
+            "name": "Jr. Men Middle-weight",
+            "sex": "m",
+            "weight": {
+                "from": 80,
+                "to": 100
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 2,
+            "name": "Jr. Men Heavy-weight",
+            "sex": "m",
+            "weight": {
+                "from": 100
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 3,
+            "name": "Jr. Men Open-weight",
+            "sex": "m",
+            "weight": {},
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+
+        {
+            "id": 4,
+            "name": "Jr. Women Light-weight",
+            "sex": "f",
+            "weight": {
+                "to": 60
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 5,
+            "name": "Jr. Women Middle-weight",
+            "sex": "f",
+            "weight": {
+                "from": 60,
+                "to": 75
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 6,
+            "name": "Jr. Women Heavy-weight",
+            "sex": "f",
+            "weight": {
+                "from": 75
+            },
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+        {
+            "id": 7,
+            "name": "Jr. Women Open-weight",
+            "sex": "f",
+            "weight": {},
+            "age": {
+                "from": 13,
+                "to": 18
+            }
+        },
+
+        {
+            "id": 8,
+            "name": "Men Light-weight",
+            "sex": "m",
+            "weight": {
+                "to": 85
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 9,
+            "name": "Men Middle-weight",
+            "sex": "m",
+            "weight": {
+                "from": 85,
+                "to": 115
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 10,
+            "name": "Men Light Heavyweight",
+            "sex": "m",
+            "weight": {
+                "from": 100,
+                "to": 115
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 11,
+            "name": "Men Heavy-weight",
+            "sex": "m",
+            "weight": {
+                "from": 115
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 12,
+            "name": "Men Open-weight",
+            "sex": "m",
+            "weight": {},
+            "age": {
+                "from": 18
+            }
+        },
+
+        {
+            "id": 13,
+            "name": "Women Light-weight",
+            "sex": "f",
+            "weight": {
+                "to": 65
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 14,
+            "name": "Women Middle-weight",
+            "sex": "f",
+            "weight": {
+                "from": 65,
+                "to": 73
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 15,
+            "name": "Women Light Heavyweight",
+            "sex": "f",
+            "weight": {
+                "from": 73,
+                "to": 80
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 16,
+            "name": "Women Heavy-weight",
+            "sex": "f",
+            "weight": {
+                "from": 80
+            },
+            "age": {
+                "from": 18
+            }
+        },
+        {
+            "id": 17,
+            "name": "Women Open-weight",
+            "sex": "f",
+            "weight": {},
+            "age": {
+                "from": 18
+            }
+        }
+    ]
+}
