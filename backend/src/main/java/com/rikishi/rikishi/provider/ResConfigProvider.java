@@ -32,6 +32,13 @@ public class ResConfigProvider implements ConfigProvider {
             .findFirst();
     }
 
+    @Override
+    public Optional<WeightClass> getWeightClassByName(String name) {
+        return config.weightClasses.stream()
+            .filter(weightClass -> weightClass.name().equals(name))
+            .findFirst();
+    }
+
     private record Config(
         List<WeightClass> weightClasses
     ) {}
