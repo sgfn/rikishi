@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ConfigProvider {
     List<WeightClass> getWeightClasses();
     Optional<WeightClass> getWeightClassById(long id);
+    Optional<WeightClass> getWeightClassByName(String name);
 }
