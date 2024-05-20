@@ -5,6 +5,8 @@ import com.rikishi.rikishi.model.Indexable;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +32,7 @@ public class LocalJSONRepository<T extends Indexable<ID>, ID> implements Reposit
     public LocalJSONRepository(Class<T> clazz, File file, ObjectMapper mapper) throws IOException {
         this(clazz,
             new FileReader(existent(file)),
-            new FileWriter(existent(file)),
+            new FileWriter(existent(file), true),
             mapper
         );
     }
@@ -46,7 +48,7 @@ public class LocalJSONRepository<T extends Indexable<ID>, ID> implements Reposit
             parent.mkdirs();
 
         if (!file.exists())
-            file.createNewFile();
+            Files.writeString(Path.of(file.toString()), "[]\n");
 
         return file;
     }
