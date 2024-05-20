@@ -56,7 +56,7 @@ function WeightInForm() {
           <label>Enter the new weight:</label>
           <br />
           <input
-            type="text"
+            type="number"
             required
             value={newWeight}
             onChange={(e) => setNewWeight(e.target.value)}
