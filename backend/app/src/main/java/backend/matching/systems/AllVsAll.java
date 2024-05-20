@@ -7,6 +7,7 @@ import java.util.*;
 public class AllVsAll implements MatchingSystem {
     private final Map<Player, Integer> playerToId = new HashMap<>();
     private final Map<Player, Integer> playerWins = new HashMap<>();
+    private int mostWins = -1;
     private final List<List<List<Integer>>> results = new ArrayList<>();
     private int currentRow = 0;
     private int currentColumn = 1;
@@ -17,7 +18,7 @@ public class AllVsAll implements MatchingSystem {
     @Override
     public void loadPlayers(Collection<Player> players) {
         numOfPlayers = players.size();
-        if (numOfPlayers > 5 || numOfPlayers < 3) {
+        if (numOfPlayers > 5) {
             throw new IllegalArgumentException("Invalid number of players");
         }
         fillPlayersMap(players);
@@ -104,7 +105,12 @@ public class AllVsAll implements MatchingSystem {
         results.get(loserId).get(winnerId).set(1, currentValue + 1);
         if (results.get(winnerId).get(loserId).get(0) == 2) {
             matchInProgress = false;
-            playerWins.put(winner, playerWins.getOrDefault(winner, 0) + 1);
+            int newScore = playerWins.getOrDefault(winner, 0) + 1;
+            if (newScore > mostWins) {
+                mostWins = newScore;
+            }
+            playerWins.put(winner, newScore);
+            System.out.println("Winner: " + winner);
         }
     }
 
@@ -113,4 +119,11 @@ public class AllVsAll implements MatchingSystem {
         return Set.of(idToPlayer(currentColumn), idToPlayer(currentRow));
     }
 
+    public int getMostWins() {
+        return mostWins;
+    }
+
+    public Map<Player, Integer> getPlayerWins() {
+        return playerWins;
+    }
 }

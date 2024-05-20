@@ -3,12 +3,59 @@
  */
 package backend;
 
+import backend.matching.Player;
+import backend.matching.systems.AllVsAllManager;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 public class App {
     public String getGreeting() {
-        return "Hello World!";
+        return "hello";
+    }
+
+
+    private static void simulateMatch(AllVsAllManager manager, Player player1, Player player2, Player winner) {
+        Set<Player> currentPlayers = manager.getCurrentPlayers();
+        if (currentPlayers.contains(player1) && currentPlayers.contains(player2)) {
+            for (int i = 0; i < 2; i++) {
+                manager.chooseWinner(winner);
+            }
+        }else {
+            System.out.println("Blad");
+        }
+        manager.nextMatch();
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+//        System.out.println(new App().getGreeting());
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        Player player4 = new Player();
+
+        Collection<Player> players = List.of(player1, player2, player3, player4);
+
+        AllVsAllManager manager = new AllVsAllManager();
+        manager.loadPlayers(players);
+
+        // Matches based on the provided results
+        simulateMatch(manager, player1, player2, player1); // 1 wins against 2
+        simulateMatch(manager, player3, player2, player3); // 3 wins against 2
+        simulateMatch(manager, player3, player4, player4); // 4 wins against 3
+
+        simulateMatch(manager, player1, player3, player3); // 3 wins against 1
+        simulateMatch(manager, player2, player4, player2); // 2 wins against 4
+
+
+        simulateMatch(manager, player1, player4, player1); // 1 wins against 4
+
+        manager.nextMatch();
+
+        simulateMatch(manager, player1, player3, player3); // 3 wins against 1
+
+        // Handle end of tournament
+        System.out.println("Koniec turnieju");
     }
 }
