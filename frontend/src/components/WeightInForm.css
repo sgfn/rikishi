@@ -1,0 +1,49 @@
+.weight-in {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.weight-in-form {
+  outline: 5px solid rgba(151, 107, 147, 0.86);
+  margin: 0 auto;
+  text-align: center;
+  width: 300px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+label {
+  font-size: 25px;
+}
+
+input {
+  margin-top: 20px;
+  margin-right: 5px;
+  width: 30px;
+  text-align: right;
+  border: 1px solid;
+}
+
+.error {
+  color: red;
+  margin-bottom: 15px;
+}
+
+.exit-button {
+  top: 5%;
+  left: 125px;
+  padding: 15px 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
