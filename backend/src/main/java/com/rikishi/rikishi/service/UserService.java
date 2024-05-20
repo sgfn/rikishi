@@ -12,14 +12,15 @@ import org.springframework.stereotype.Service;
 import com.rikishi.rikishi.model.User;
 
 @Service("us")
-public class UserService {
-    private static Map<Long, User> users = new HashMap<>();
+public class UserService implements AutoCloseable {
     private final UserRepository userRepository;
     private final UserLoader userLoader;
 
     public UserService(UserRepository userRepository, UserLoader userLoader) throws IOException {
         this.userRepository = userRepository;
         this.userLoader = userLoader;
+
+        userRepository.load();
     }
 
     public void addUser(User user) {
@@ -36,5 +37,10 @@ public class UserService {
 
     public void importFromFile(Path path) throws IOException {
         userRepository.addAll(userLoader.load(path));
+    }
+
+    @Override
+    public void close() throws Exception {
+        userRepository.save();
     }
 }
