@@ -1,4 +1,4 @@
-import { useNavigate, useParams, useHistory } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import './Duel.css';
