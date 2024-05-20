@@ -52,7 +52,7 @@ public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T
         this(clazz, defaultFile(clazz), mapper);
     }
 
-    private static RWSupplier supplier(File file) throws IOException {
+    private static RWSupplier supplier(File file) {
         return new RWSupplier() {
             @Override
             public Reader reader() throws IOException {
