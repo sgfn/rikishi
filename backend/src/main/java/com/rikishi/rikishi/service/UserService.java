@@ -2,8 +2,8 @@ package com.rikishi.rikishi.service;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.rikishi.rikishi.loader.UserLoader;
 import com.rikishi.rikishi.repository.UserRepository;
@@ -27,8 +27,8 @@ public class UserService implements AutoCloseable {
         userRepository.add(user);
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll().toList();
+    public Stream<User> getUsers() {
+        return userRepository.findAll();
     }
 
     public Optional<User> getUserById(long id) {

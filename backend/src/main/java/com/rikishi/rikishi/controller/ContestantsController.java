@@ -26,7 +26,7 @@ public class ContestantsController {
     @GetMapping("/contestants")
     public Contestants getContestants() {
         return new Contestants(
-            userService.getUsers().stream().map(user -> user.toJson()).toList()
+            userService.getUsers().map(User::toJson).toList()
         );
     }
 
