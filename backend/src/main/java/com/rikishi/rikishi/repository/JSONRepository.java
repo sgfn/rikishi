@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class LocalJSONRepository<T extends Indexable<ID>, ID> implements Repository<T, ID> {
+public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T, ID> {
     private final Map<ID, T> data = new HashMap<>();
 
     private final Reader reader;
@@ -22,14 +22,14 @@ public class LocalJSONRepository<T extends Indexable<ID>, ID> implements Reposit
     private final ObjectMapper mapper;
     private final Class<T> clazz;
 
-    public LocalJSONRepository(Class<T> clazz, Reader reader, Writer writer, ObjectMapper mapper) {
+    public JSONRepository(Class<T> clazz, Reader reader, Writer writer, ObjectMapper mapper) {
         this.clazz = clazz;
         this.reader = reader;
         this.writer = writer;
         this.mapper = mapper;
     }
 
-    public LocalJSONRepository(Class<T> clazz, File file, ObjectMapper mapper) throws IOException {
+    public JSONRepository(Class<T> clazz, File file, ObjectMapper mapper) throws IOException {
         this(clazz,
             new FileReader(existent(file)),
             new FileWriter(existent(file), true),
@@ -37,7 +37,7 @@ public class LocalJSONRepository<T extends Indexable<ID>, ID> implements Reposit
         );
     }
 
-    public LocalJSONRepository(Class<T> clazz, ObjectMapper mapper) throws IOException {
+    public JSONRepository(Class<T> clazz, ObjectMapper mapper) throws IOException {
         this(clazz, defaultFile(clazz), mapper);
     }
 
