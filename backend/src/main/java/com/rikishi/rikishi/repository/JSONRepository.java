@@ -16,29 +16,54 @@ import java.util.stream.Stream;
 public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T, ID> {
     private final Map<ID, T> data = new HashMap<>();
 
-    private final Reader reader;
-    private final Writer writer;
+    private final RWSupplier rwSupplier;
 
     private final ObjectMapper mapper;
     private final Class<T> clazz;
 
-    public JSONRepository(Class<T> clazz, Reader reader, Writer writer, ObjectMapper mapper) {
+    public JSONRepository(Class<T> clazz, RWSupplier rwSupplier, ObjectMapper mapper) {
         this.clazz = clazz;
-        this.reader = reader;
-        this.writer = writer;
+        this.rwSupplier = rwSupplier;
         this.mapper = mapper;
     }
 
+    public JSONRepository(Class<T> clazz, Reader reader, Writer writer, ObjectMapper mapper) {
+        this.clazz = clazz;
+        this.mapper = mapper;
+
+        rwSupplier = new RWSupplier() {
+            @Override
+            public Reader reader() {
+                return reader;
+            }
+
+            @Override
+            public Writer writer() {
+                return writer;
+            }
+        };
+    }
+
     public JSONRepository(Class<T> clazz, File file, ObjectMapper mapper) throws IOException {
-        this(clazz,
-            new FileReader(existent(file)),
-            new FileWriter(existent(file), true),
-            mapper
-        );
+        this(clazz, supplier(file), mapper);
     }
 
     public JSONRepository(Class<T> clazz, ObjectMapper mapper) throws IOException {
         this(clazz, defaultFile(clazz), mapper);
+    }
+
+    private static RWSupplier supplier(File file) throws IOException {
+        return new RWSupplier() {
+            @Override
+            public Reader reader() throws IOException {
+                return new FileReader(existent(file));
+            }
+
+            @Override
+            public Writer writer() throws IOException {
+                return new FileWriter(existent(file));
+            }
+        };
     }
 
     private static File existent(File file) throws IOException {
@@ -91,7 +116,7 @@ public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T
 
     @Override
     public void load() throws IOException {
-        var array = (T[]) mapper.readerForArrayOf(clazz).readValue(reader);
+        var array = (T[]) mapper.readerForArrayOf(clazz).readValue(rwSupplier.reader());
 
         data.clear();
 
@@ -102,6 +127,11 @@ public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T
 
     @Override
     public void save() throws IOException {
-        mapper.writeValue(writer, data.values());
+        mapper.writeValue(rwSupplier.writer(), data.values());
+    }
+
+    public interface RWSupplier {
+        Reader reader() throws IOException;
+        Writer writer() throws IOException;
     }
 }
