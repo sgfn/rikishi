@@ -1,6 +1,7 @@
 package com.rikishi.rikishi.service;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,9 @@ public class UserService {
 
     public Optional<User> getUserById(long id) {
         return userRepository.findById(id);
+    }
+
+    public void importFromFile(Path path) throws IOException {
+        userRepository.addAll(userLoader.load(path));
     }
 }
