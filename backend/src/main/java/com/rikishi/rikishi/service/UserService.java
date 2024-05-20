@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.rikishi.rikishi.model.User;
 
 @Service("us")
-public class UsersService {
+public class UserService {
     private static Map<Long, User> users = new HashMap<>();
 
     public void addUser(User user) {
