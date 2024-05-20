@@ -23,6 +23,7 @@ public class AllVsAll implements MatchingSystem {
         }
         fillPlayersMap(players);
         resultsListInit(numOfPlayers, numOfPlayers, 2);
+        matchInProgress = true;
     }
 
     private void fillPlayersMap(Collection<Player> players) {
@@ -72,8 +73,7 @@ public class AllVsAll implements MatchingSystem {
         if (matchInProgress) {
             throw new IllegalStateException("Match is still in progress");
         }
-        matchInProgress = true;
-        if (currentRow == numOfPlayers - 1 && currentColumn == numOfPlayers - 1) {
+        if (currentRow == 0 && currentColumn == numOfPlayers - 1) {
             throw new RuntimeException("This part of tournament has ended");
         } else if (currentColumn == numOfPlayers - 1) {
             currentRow = 0;
@@ -83,6 +83,7 @@ public class AllVsAll implements MatchingSystem {
             currentRow++;
             currentColumn++;
         }
+        matchInProgress = true;
     }
 
     @Override
@@ -125,5 +126,9 @@ public class AllVsAll implements MatchingSystem {
 
     public Map<Player, Integer> getPlayerWins() {
         return playerWins;
+    }
+
+    public List<Integer> getConcreteResult(int row, int column) {
+        return results.get(row).get(column);
     }
 }
