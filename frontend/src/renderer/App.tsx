@@ -33,7 +33,7 @@ export default function App() {
           <Route exact path="/categories/:category" element={<DuelList />} />
           <Route exact path="/categories" element={<CategoryList />} />
           <Route exact path="/contestants/:id" element={<ContestantProfile />} />
-          <Route exact path="/duels/:weightCategory/:id1Contestant/:id2Contestant" element={<Duel />} />
+          <Route exact path="/duels/:weightCategory/:duelId/:id1Contestant/:id2Contestant" element={<Duel />} />
         </Routes>
       </Router>
     </div>
