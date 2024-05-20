@@ -1,41 +1,26 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import usePatchData from '../hooks/usePatchData';
 import './WeightInForm.css';
 import exitIcon from '../../assets/icons/exit.png';
 
+
 function WeightInForm() {
   const [newWeight, setNewWeight] = useState(null);
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState(null);
   const { id } = useParams();
+  const {
+    isLoading: isPending,
+    error,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    response,
+    patchData,
+  } = usePatchData(`http://localhost:8000/contestants/${id}`);
   const history = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsPending(true);
-    // eslint-disable-next-line promise/catch-or-return
-    fetch(`http://localhost:8000/contestants/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ weight: newWeight }),
-      // eslint-disable-next-line promise/always-return
-    })
-      // eslint-disable-next-line promise/always-return
-      .then((res) => {
-        // eslint-disable-next-line promise/always-return
-        if (!res.ok) {
-          throw Error('Could not update weight.');
-        }
-        setIsPending(false);
-        setError(null);
-        history(`/contestants/${id}`);
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        setError(err.message);
-        setIsPending(false);
-      });
+    patchData({ weight: newWeight });
+    history(`/contestants/${id}`);
   };
 
   const handleExit = () => {
