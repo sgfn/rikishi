@@ -13,9 +13,8 @@ class MatchingSystemTest {
     @Test
     void TreeBracketTest() {
         List<Player> players = List.of(
-                new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
+            new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
         );
-        Player player = players.get(0);
         MatchingSystem bracket = new TreeBracket();
         bracket.loadPlayers(players);
 
@@ -25,29 +24,43 @@ class MatchingSystemTest {
     @Test
     void allPlayersTest() {
         List<Player> players = List.of(
-                new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
+            new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
         );
         MatchingSystem bracket = new TreeBracket();
         bracket.loadPlayers(players);
 
         Set<Player> allPlayers = new HashSet<>();
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             allPlayers.addAll(bracket.getCurrentPlayers());
             bracket.chooseWinner(bracket.getCurrentPlayers().iterator().next());
             bracket.nextMatch();
         }
 
-        Assertions.assertEquals( 8, allPlayers.size());
-
-
+        Assertions.assertEquals(8, allPlayers.size());
     }
 
     @Test
-    void freeTicketTest(){
+    void freeTicketTest() {
         List<Player> players = List.of(
             new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
         );
         MatchingSystem bracket = new TreeBracket();
         bracket.loadPlayers(players);
+    }
+
+    @Test
+    void tornamentWithFreeTicketTest() {
+        List<Player> players = List.of(
+            new Player(), new Player(), new Player(), new Player(), new Player(), new Player()
+        );
+        TreeBracket bracket = new TreeBracket();
+        bracket.loadPlayers(players);
+        for (int i = 0; i < 4; i++) {
+            Set<Player> currPlayers = bracket.getCurrentPlayers();
+            bracket.chooseWinner(currPlayers.iterator().next());
+            bracket.nextMatch();
+        }
+        Set<Player> currPlayers = bracket.getCurrentPlayers();
+        bracket.chooseWinner(currPlayers.iterator().next());
     }
 }

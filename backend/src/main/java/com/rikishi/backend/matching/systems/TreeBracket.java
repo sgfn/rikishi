@@ -11,17 +11,17 @@ public class TreeBracket implements MatchingSystem {
 
     @Override
     public void nextMatch() {
-        if(arrayTree.get(actualMatch) == null) {
+        if (arrayTree.get(actualMatch) == null) {
             throw new RuntimeException("No winner of the round");
         }
-        if (currentRound == OctetRoundName.FINAL)
-            throw new RuntimeException("There is nothing afet finals");
+        if (currentRound == OctetRoundName.FINAL) throw new RuntimeException("There is nothing afet finals");
         if (actualMatch + 1 < currentRound.getIndexBound()) actualMatch++;
         else {
             currentRound = currentRound.goUp();
             actualMatch = currentRound.getIndexStart();
         }
-        if(getCurrentPlayers().size()==1){
+        if (getCurrentPlayers().size() == 1) {
+            chooseWinner(getCurrentPlayers().iterator().next());
             nextMatch();
         }
     }
@@ -39,6 +39,7 @@ public class TreeBracket implements MatchingSystem {
         if (arrayTree.size() <= (actualMatch + 1) * 2) throw new RuntimeException("Players are out of bound");
         players.add(arrayTree.get((actualMatch + 1) * 2 - 1));
         players.add(arrayTree.get((actualMatch + 1) * 2));
+        players.remove(null);
         return players;
     }
 
@@ -60,10 +61,12 @@ public class TreeBracket implements MatchingSystem {
             for (int i = 0; i < 15; i++) {
                 arrayTree.add(null);
             }
-            for (int i = 0,k=0; k < players.size(); i = ((i + 4) % 7), k++) {
-                arrayTree.set(7+i, playersArray.get(k));
+            for (int i = 0, k = 0; k < players.size(); i = ((i + 4) % 7), k++) {
+                arrayTree.set(7 + i, playersArray.get(k));
             }
-        } else throw new RuntimeException("implement only for 8 players");
+        } else {
+            throw new RuntimeException("implement only for 6 to 8 players");
+        }
     }
 
     public void printBracket() {
