@@ -30,7 +30,7 @@ function DuelList() {
             .map((duel) => (
               <div className="duel-preview" key={duel.id}>
                 <Link
-                  to={`/duels/${duel.weightCategory}/${duel.id1Contestant}/${duel.id2Contestant}`}
+                  to={`/duels/${duel.weightCategory}/${duel.id}/${duel.id1Contestant}/${duel.id2Contestant}`}
                 >
                   <p>Duel nr. {duel.id}</p>
                 </Link>
