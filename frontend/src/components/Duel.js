@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import './Duel.css';
 import exitIcon from '../../assets/icons/exit.png';
-import usePatchData from '../hooks/patchData';
+import usePatchData from '../hooks/usePatch';
 
 function Duel() {
   const { weightCategory, duelId, id1Contestant, id2Contestant } = useParams();

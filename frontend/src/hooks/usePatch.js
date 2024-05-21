@@ -5,7 +5,7 @@ const usePatchData = (url) => {
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
 
-  const patchData = async (data) => {
+  const usePatch = async (data) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -25,7 +25,7 @@ const usePatchData = (url) => {
     }
   };
 
-  return { isLoading, error, response, patchData };
+  return { isLoading, error, response, usePatch };
 };
 
 export default usePatchData;
