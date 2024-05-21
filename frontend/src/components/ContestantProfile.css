@@ -28,6 +28,12 @@ h2 {
 
 .error {
   color: red;
+  margin-bottom: 5px;
+}
+
+.wrong-category {
+  color: red;
+  margin-bottom: 10px;
 }
 
 .contestant-stats p {
@@ -75,4 +81,3 @@ button:hover {
 .exit-button:hover {
   background: rgba(189, 177, 177, 0.35);
 }
-

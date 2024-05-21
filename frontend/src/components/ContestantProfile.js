@@ -1,21 +1,25 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
+import useCategoryCheck from '../hooks/useCategoryCheck';
 import './ContestantProfile.css';
 import exitIcon from '../../assets/icons/exit.png';
 
 function ContestantProfile() {
-  const {id} = useParams();
+  const history = useNavigate();
+  const { id } = useParams();
   const {
     data: contestant,
     isPending,
-    error,
+    error: errorFetch,
   } = useFetch(`http://localhost:8000/contestants/${id}`); // adres tymczasowy do testów
-  const history = useNavigate();
+  const {
+    wrongCategoryFlag,
+    error: errorCategoryCheck
+  } = useCategoryCheck(`http://localhost:8000/check-category/${id}`) // adres tymczasowy do testów
 
   const handleExit = () => {
     // eslint-disable-next-line no-console
     console.log('Exit button pressed');
-    // na razie przenosi do pustej strony
     history('/contestants');
   };
 
@@ -27,7 +31,15 @@ function ContestantProfile() {
       <div className="contestant-profile">
         <h2>Wrestler Profile</h2>
         {isPending && <div>Loading...</div>}
-        {error && <div className="error">{error}</div>}
+        {errorFetch && <div className="error">{errorFetch}</div>}
+        {errorCategoryCheck && <div className="error">{errorCategoryCheck}</div>}
+        {wrongCategoryFlag && (
+          <div className="wrong-category">
+            The weight of the contestant does not match his weight category.
+            <br />
+            Consider changing the category or update the weight.
+          </div>
+        )}
         {contestant && (
           <div className="contestant-profile-container">
             <img
@@ -50,11 +62,21 @@ function ContestantProfile() {
               </p>
               <p>
                 <strong>Weight:</strong>
-                <div className="p-right">{contestant.weight} kg</div>
+                <div
+                  className="p-right"
+                  style={{ color: wrongCategoryFlag ? 'red' : '#333' }}
+                >
+                  {contestant.weight} kg
+                </div>
               </p>
               <p>
-                <strong>Category:</strong>
-                <div className="p-right">{contestant.weightCategory}</div>
+                <strong>Weight:</strong>
+                <div
+                  className="p-right"
+                  style={{ color: wrongCategoryFlag ? 'red' : '#333' }}
+                >
+                  {contestant.weightCategory}
+                </div>
               </p>
             </div>
           </div>
@@ -62,7 +84,11 @@ function ContestantProfile() {
       </div>
       {contestant && (
         <div className="buttons-container">
-          <button type="button" className="weight-in-button">
+          <button
+            type="button"
+            className="weight-in-button"
+            onClick={() => history(`/weight-in/${id}`)}
+          >
             Weight-In
           </button>
           <button type="button" className="category-button">

@@ -1,0 +1,27 @@
+.contestant-profile {
+  text-align: center;
+  width: 300px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 50px;
+}
+
+.exit-button {
+  top: 5%;
+  left: 125px;
+  padding: 15px 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+.exit-button:hover {
+  background: rgba(189, 177, 177, 0.35);
+}
+
+.text-duel{
+  font-size:40px;
+}

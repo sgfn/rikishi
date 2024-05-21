@@ -2,7 +2,7 @@
   "contestants": [
     {
       "name": "Yoshiazuma",
-      "weight": 170,
+      "weight": "120",
       "weightCategory": "Heavy-weight - M",
       "age": 46,
       "country": "Japan",
@@ -11,7 +11,7 @@
     },
     {
       "name": "Enho",
-      "weight": 97,
+      "weight": "90",
       "weightCategory": "Middle-weight - M",
       "age": 29,
       "country": "Japan",
@@ -52,6 +52,50 @@
       "age": 31,
       "country": "Mongolia",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Tamashoho_Mach_2023.jpg/220px-Tamashoho_Mach_2023.jpg",
+      "id": 6
+    }
+  ],
+  "duels": [
+    {
+      "id1Contestant": 6,
+      "id2Contestant": 1,
+      "number": 1,
+      "id": 1,
+      "weightCategory": "Heavy-weight - M",
+      "winner": ""
+    },
+    {
+      "id1Contestant": 2,
+      "id2Contestant": 3,
+      "number": 2,
+      "id": 2,
+      "weightCategory": "Heavy-weight - M",
+      "winner": ""
+    }
+  ],
+  "check-category": [
+    {
+      "flag": false,
+      "id": 1
+    },
+    {
+      "flag": false,
+      "id": 2
+    },
+    {
+      "flag": true,
+      "id": 3
+    },
+    {
+      "flag": false,
+      "id": 4
+    },
+    {
+      "flag": true,
+      "id": 5
+    },
+    {
+      "flag": false,
       "id": 6
     }
   ]
