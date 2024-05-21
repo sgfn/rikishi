@@ -1,0 +1,18 @@
+[
+    {
+        "id": 0,
+        "value": "Foo"
+    },
+    {
+        "id": 1,
+        "value": "Bar"
+    },
+    {
+        "id": 2,
+        "value": "Baz"
+    },
+    {
+        "id": 3,
+        "value": "Qux"
+    }
+]

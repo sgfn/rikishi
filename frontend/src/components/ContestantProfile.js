@@ -84,7 +84,11 @@ function ContestantProfile() {
       </div>
       {contestant && (
         <div className="buttons-container">
-          <button type="button" className="weight-in-button">
+          <button
+            type="button"
+            className="weight-in-button"
+            onClick={() => history(`/weight-in/${id}`)}
+          >
             Weight-In
           </button>
           <button type="button" className="category-button">

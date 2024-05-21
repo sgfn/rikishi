@@ -1,0 +1,46 @@
+package com.rikishi.rikishi.service;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import com.rikishi.rikishi.loader.UserLoader;
+import com.rikishi.rikishi.repository.UserRepository;
+import org.springframework.stereotype.Service;
+
+import com.rikishi.rikishi.model.User;
+
+@Service("us")
+public class UserService implements AutoCloseable {
+    private final UserRepository userRepository;
+    private final UserLoader userLoader;
+
+    public UserService(UserRepository userRepository, UserLoader userLoader) throws IOException {
+        this.userRepository = userRepository;
+        this.userLoader = userLoader;
+
+        userRepository.load();
+    }
+
+    public void addUser(User user) {
+        userRepository.add(user);
+    }
+
+    public Stream<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> getUserById(long id) {
+        return userRepository.findById(id);
+    }
+
+    public void importFromFile(Path path) throws IOException {
+        userRepository.addAll(userLoader.load(path));
+    }
+
+    @Override
+    public void close() throws Exception {
+        userRepository.save();
+    }
+}
