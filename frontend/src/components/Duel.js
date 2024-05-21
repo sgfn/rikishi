@@ -42,13 +42,16 @@ function Duel() {
     history(`/categories/${weightCategory}`);
   };
 
+
   const { isLoading, error, response, usePatch } = usePatchData(
+
     `http://localhost:8000/duels/${duelId}`,
   );
   const handleWinner = (winnerId) => {
     setIsWinnerSelected(!isWinnerSelected);
     const numberValue = parseInt(winnerId, 10);
     usePatch({ winner: numberValue });
+
   };
   const handleChangeWinner = () => {
     setIsWinnerSelected(!isWinnerSelected);
