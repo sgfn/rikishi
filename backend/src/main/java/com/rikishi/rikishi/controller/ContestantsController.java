@@ -30,6 +30,22 @@ public class ContestantsController {
         );
     }
 
+    @GetMapping("/contestants/sorted/{userField}")
+    public Contestants getSortedContestants(@PathVariable String userField) {
+        return switch (userField) {
+            case "age" -> new Contestants(
+                usersService.getUsersSortedByAge().stream().map(user -> user.toJson()).toList()
+            );
+            case "name" -> new Contestants(
+                usersService.getUsersSortedByName().stream().map(user -> user.toJson()).toList()
+            );
+            case "weight" -> new Contestants(
+                usersService.getUsersSortedByWeight().stream().map(user -> user.toJson()).toList()
+            );
+            default -> throw new RuntimeException("contestants sort argument is not valid");
+        };
+    }
+
     @PutMapping("/contestants/{id}")
     public void putContestant(@RequestBody Contestant newContestant, @PathVariable Long id) {
         if (newContestant.id() != id)
