@@ -29,7 +29,6 @@ function ContestantsList() {
         <div className="contestant-list">
           {contestants.map((contestant) => (
             <div className="contestant-preview" key={contestant.id}>
-              {/* Oczywiście na razie to link do pustej strony ale na stronę po kliknięciu tego jest inny task */}
               <Link to={`/contestants/${contestant.id}`}>
                 <p>
                   {contestant.id}. {contestant.name}
@@ -50,7 +49,6 @@ function ContestantsList() {
       <button type="button" className="sort-button">
         <img src={sortIcon} alt="sort-icon" />
       </button>
-      {/* button wydaje się nie mieć efektu ale trzeba pamiętać że na potrzeby testu ustawiłem tą stronę jako root */}
       <button type="button" className="exit-button" onClick={handleExit}>
         <img src={exitIcon} alt="exit-icon" />
       </button>
