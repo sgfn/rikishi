@@ -1,0 +1,102 @@
+{
+  "contestants": [
+    {
+      "name": "Yoshiazuma",
+      "weight": "120",
+      "weightCategory": "Heavy-weight - M",
+      "age": 46,
+      "country": "Japan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Yoshizauma_2011_Nov.jpg/220px-Yoshizauma_2011_Nov.jpg",
+      "id": 1
+    },
+    {
+      "name": "Enho",
+      "weight": "90",
+      "weightCategory": "Middle-weight - M",
+      "age": 39,
+      "country": "Japan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Enho.jpg/220px-Enho.jpg",
+      "id": 2
+    },
+    {
+      "name": "Aoiyama",
+      "weight": 180,
+      "weightCategory": "Heavy-weight - M",
+      "age": 37,
+      "country": "Bulgaria",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Aoiyama_2012_Jan.JPG/220px-Aoiyama_2012_Jan.JPG",
+      "id": 3
+    },
+    {
+      "name": "Kawazoe",
+      "weight": 115,
+      "weightCategory": "Heavy-weight - M",
+      "age": 25,
+      "country": "Japan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Kihoudohyouiri.jpg/220px-Kihoudohyouiri.jpg",
+      "id": 4
+    },
+    {
+      "name": "Fujiazuma",
+      "weight": 165,
+      "weightCategory": "Heavy-weight - M",
+      "age": 37,
+      "country": "Japan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Fujiazuma_2011_Nov.jpg/220px-Fujiazuma_2011_Nov.jpg",
+      "id": 5
+    },
+    {
+      "name": "Tamashoho",
+      "weight": 128,
+      "weightCategory": "Heavy-weight - M",
+      "age": 1,
+      "country": "Mongolia",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Tamashoho_Mach_2023.jpg/220px-Tamashoho_Mach_2023.jpg",
+      "id": 6
+    }
+  ],
+  "duels": [
+    {
+      "id1Contestant": 6,
+      "id2Contestant": 1,
+      "number": 1,
+      "id": 1,
+      "weightCategory": "Heavy-weight - M",
+      "winner": 1
+    },
+    {
+      "id1Contestant": 2,
+      "id2Contestant": 3,
+      "number": 2,
+      "id": 2,
+      "weightCategory": "Heavy-weight - M",
+      "winner": 3
+    }
+  ],
+  "check-category": [
+    {
+      "flag": false,
+      "id": 1
+    },
+    {
+      "flag": false,
+      "id": 2
+    },
+    {
+      "flag": true,
+      "id": 3
+    },
+    {
+      "flag": false,
+      "id": 4
+    },
+    {
+      "flag": true,
+      "id": 5
+    },
+    {
+      "flag": false,
+      "id": 6
+    }
+  ]
+}
