@@ -1,4 +1,4 @@
-package backend.matching.systems;
+package com.rikishi.backend.matching.systems;
 
 public enum OctetRoundName {
     FINAL,
