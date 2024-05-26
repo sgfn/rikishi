@@ -1,7 +1,6 @@
-package backend.matching.systems;
+package com.rikishi.backend.matching.systems;
 
-import backend.matching.Player;
-import org.graalvm.collections.Pair;
+import com.rikishi.backend.matching.Player;
 
 import java.util.Collection;
 import java.util.Set;

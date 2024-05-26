@@ -12,7 +12,7 @@ public record User(
     Sex sex,
     String country,
     String photoLink
-) {
+) implements Indexable<Long> {
     public static User fromJson(Contestant contestant, WeightClass resolvedWeightClass) {
         return new User(
             contestant.id(),
@@ -31,5 +31,10 @@ public record User(
         return new Contestant(
             name, surname, sex.toString(), age, weight, weightClass.name(), country, photoLink, id
         );
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 }

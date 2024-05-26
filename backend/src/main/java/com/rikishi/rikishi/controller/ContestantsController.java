@@ -5,7 +5,7 @@ import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.Contestant;
 import com.rikishi.rikishi.model.entity.Contestants;
 import com.rikishi.rikishi.provider.ResConfigProvider;
-import com.rikishi.rikishi.service.UsersService;
+import com.rikishi.rikishi.service.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ContestantsController {
-    private final UsersService usersService;
+    private final UserService userService;
     private final ResConfigProvider resConfigProvider;
 
-    ContestantsController(UsersService us, ResConfigProvider rcp) {
-        this.usersService = us;
+    ContestantsController(UserService us, ResConfigProvider rcp) {
+        this.userService = us;
         this.resConfigProvider = rcp;
     }
 
     @GetMapping("/contestants")
     public Contestants getContestants() {
         return new Contestants(
-            usersService.getUsers().stream().map(user -> user.toJson()).toList()
+            userService.getUsers().map(User::toJson).toList()
         );
     }
 
@@ -54,6 +54,6 @@ public class ContestantsController {
         WeightClass resolvedWeightClass =
             resConfigProvider.getWeightClassByName(newContestant.weightCategory()).orElseThrow();
 
-        usersService.addUser(User.fromJson(newContestant, resolvedWeightClass));
+        userService.addUser(User.fromJson(newContestant, resolvedWeightClass));
     }
 }
