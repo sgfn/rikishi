@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
+import java.util.*;
 
 import com.rikishi.rikishi.loader.UserLoader;
 import com.rikishi.rikishi.repository.UserRepository;
@@ -30,6 +31,12 @@ public class UserService implements AutoCloseable {
     public Stream<User> getUsers() {
         return userRepository.findAll();
     }
+
+    public Stream<User> getUsersSortedByAge() { return userRepository.findAll().sorted(Comparator.comparing(User::age)); }
+
+    public Stream<User> getUsersSortedByName() { return userRepository.findAll().sorted(Comparator.comparing(User::name)); }
+
+    public Stream<User> getUsersSortedByWeight() { return userRepository.findAll().sorted(Comparator.comparing(User::weight)); }
 
     public Optional<User> getUserById(long id) {
         return userRepository.findById(id);

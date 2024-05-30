@@ -34,13 +34,13 @@ public class ContestantsController {
     public Contestants getSortedContestants(@PathVariable String userField) {
         return switch (userField) {
             case "age" -> new Contestants(
-                usersService.getUsersSortedByAge().stream().map(user -> user.toJson()).toList()
+                userService.getUsersSortedByAge().map(User::toJson).toList()
             );
             case "name" -> new Contestants(
-                usersService.getUsersSortedByName().stream().map(user -> user.toJson()).toList()
+                userService.getUsersSortedByName().map(User::toJson).toList()
             );
             case "weight" -> new Contestants(
-                usersService.getUsersSortedByWeight().stream().map(user -> user.toJson()).toList()
+                userService.getUsersSortedByWeight().map(User::toJson).toList()
             );
             default -> throw new RuntimeException("contestants sort argument is not valid");
         };
