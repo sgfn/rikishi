@@ -2,7 +2,6 @@ package com.rikishi.rikishi.service;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.*;
 
@@ -41,6 +40,17 @@ public class UserService implements AutoCloseable {
     public Optional<User> getUserById(long id) {
         return userRepository.findById(id);
     }
+
+
+    public Stream<User> filterUsers(Double minWeight, Double maxWeight, String sex, Integer minAge, Integer maxAge) {
+        return getUsers()
+            .filter(user -> minWeight == null || user.weight() >= minWeight)
+            .filter(user -> maxWeight == null || user.weight() <= maxWeight)
+            .filter(user -> sex == null || user.sex().toString().equalsIgnoreCase(sex))
+            .filter(user -> minAge == null || user.age() >= minAge)
+            .filter(user -> maxAge == null || user.age() <= maxAge);
+    }
+
 
     public void importFromFile(Path path) throws IOException {
         userRepository.addAll(userLoader.load(path));

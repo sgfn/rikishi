@@ -9,8 +9,8 @@ import com.rikishi.rikishi.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class ContestantsController {
@@ -63,7 +63,7 @@ public class ContestantsController {
         @RequestParam(required = false) String sex,
         @RequestParam(required = false) Integer minAge,
         @RequestParam(required = false) Integer maxAge) {
-        List<User> filteredUsers = usersService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
-        return new Contestants(filteredUsers.stream().map(User::toJson).collect(Collectors.toList()));
+        Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
+        return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
     }
 }
