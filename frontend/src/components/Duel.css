@@ -25,6 +25,10 @@ h2 {
 .text-duel{
   font-size:40px;
 }
+.text-duel-winner{
+  font-size:40px;
+  color:red;
+}
 .winner{
   display: flex;
   justify-content: center;
