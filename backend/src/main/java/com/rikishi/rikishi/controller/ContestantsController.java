@@ -7,11 +7,10 @@ import com.rikishi.rikishi.model.entity.Contestants;
 import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.UserService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class ContestantsController {
@@ -55,5 +54,16 @@ public class ContestantsController {
             resConfigProvider.getWeightClassByName(newContestant.weightCategory()).orElseThrow();
 
         userService.addUser(User.fromJson(newContestant, resolvedWeightClass));
+    }
+
+    @GetMapping("/contestants/filter")
+    public Contestants filterContestants(
+        @RequestParam(required = false) Double minWeight,
+        @RequestParam(required = false) Double maxWeight,
+        @RequestParam(required = false) String sex,
+        @RequestParam(required = false) Integer minAge,
+        @RequestParam(required = false) Integer maxAge) {
+        Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
+        return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
     }
 }
