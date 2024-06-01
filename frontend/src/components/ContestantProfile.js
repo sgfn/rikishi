@@ -91,7 +91,11 @@ function ContestantProfile() {
           >
             Weight-In
           </button>
-          <button type="button" className="category-button">
+          <button
+            type="button"
+            className="category-button"
+            onClick={() => history(`/change-category/${id}`)}
+          >
             Change Category
           </button>
         </div>

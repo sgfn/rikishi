@@ -2,7 +2,7 @@
   "contestants": [
     {
       "name": "Yoshiazuma",
-      "weight": "90",
+      "weight": "100",
       "weightCategory": "Heavy-weight - M",
       "age": 46,
       "country": "Japan",
@@ -12,7 +12,7 @@
     {
       "name": "Enho",
       "weight": "90",
-      "weightCategory": "Middle-weight - M",
+      "weightCategory": "Open-weight - M",
       "age": 39,
       "country": "Japan",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Enho.jpg/220px-Enho.jpg",
@@ -30,7 +30,7 @@
     {
       "name": "Kawazoe",
       "weight": 115,
-      "weightCategory": "Heavy-weight - M",
+      "weightCategory": "Open-weight - M",
       "age": 25,
       "country": "Japan",
       "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Kihoudohyouiri.jpg/220px-Kihoudohyouiri.jpg",
