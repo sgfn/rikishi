@@ -2,7 +2,7 @@
   "contestants": [
     {
       "name": "Yoshiazuma",
-      "weight": "120",
+      "weight": "90",
       "weightCategory": "Heavy-weight - M",
       "age": 46,
       "country": "Japan",
@@ -70,7 +70,7 @@
       "number": 2,
       "id": 2,
       "weightCategory": "Heavy-weight - M",
-      "winner": 3
+      "winner": 2
     }
   ],
   "check-category": [

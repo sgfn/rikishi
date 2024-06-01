@@ -27,11 +27,18 @@ function Duel() {
   );
 
   const [isWinnerSelected, setIsWinnerSelected] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [clicked2, setClicked2] = useState(false);
 
   useEffect(() => {
     if (!loading && duel) {
       const winnerExists = duel.winner !== '' && duel.winner !== undefined;
       setIsWinnerSelected(winnerExists);
+    }
+    if (!loading && duel && duel.winner == contestant1.id) {
+      setClicked(true);
+    } else if (!loading && duel && duel.winner == contestant2.id) {
+      setClicked2(true);
     }
   }, [loading, duel]);
 
@@ -42,16 +49,23 @@ function Duel() {
     history(`/categories/${weightCategory}`);
   };
 
-
   const { isLoading, error, response, usePatch } = usePatchData(
-
     `http://localhost:8000/duels/${duelId}`,
   );
+
   const handleWinner = (winnerId) => {
     setIsWinnerSelected(!isWinnerSelected);
     const numberValue = parseInt(winnerId, 10);
     usePatch({ winner: numberValue });
-
+    console.log(winnerId);
+    console.log(contestant1.id);
+    if (winnerId == contestant1.id) {
+      setClicked(true);
+      setClicked2(false);
+    } else {
+      setClicked2(true);
+      setClicked(false);
+    }
   };
   const handleChangeWinner = () => {
     setIsWinnerSelected(!isWinnerSelected);
@@ -67,9 +81,17 @@ function Duel() {
         <div className="contestant-profile">
           {isPending1 && isPending2 && <div>Loading...</div>}
           {error1 && error2 && <div className="error">{error1}</div>}
-          {contestant1 && <p className="text-duel">{contestant1.name}</p>}
+          {contestant1 && (
+            <p className={clicked ? 'text-duel-winner' : 'text-duel'}>
+              {contestant1.name}
+            </p>
+          )}
           <p className="text-duel">VS</p>
-          {contestant2 && <p className="text-duel">{contestant2.name}</p>}
+          {contestant2 && (
+            <p className={clicked2 ? 'text-duel-winner' : 'text-duel'}>
+              {contestant2.name}
+            </p>
+          )}
           <div>
             <h2>Select The Winner: </h2>
             <div className="winner">
