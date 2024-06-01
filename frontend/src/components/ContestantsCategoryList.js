@@ -3,14 +3,15 @@ import useFetch from '../hooks/useFetch';
 import exitIcon from '../../assets/icons/exit.png';
 import './ContestantsCategoryList.css';
 import { useState } from 'react';
+import config from '../config.js';
 
 function ContestansCategoryList() {
   const { category } = useParams();
   const {
-    data: contestants,
+    data: data,
     isPending,
     error,
-  } = useFetch('http://localhost:8000/contestants'); // tymczasowy adres na potrzeby testu
+  } = useFetch(`${config.backendUrl}/contestants`);
   const history = useNavigate();
   const [firstTeam, setFirstTeam] = useState([]);
   const [secondTeam, setSecondTeam] = useState([]);
@@ -30,6 +31,17 @@ function ContestansCategoryList() {
     // COMUNICATE WITH BACKEND 
     // trzeba wziac pod uwage w ktorej stronie drabonki jest zawodnik i czy jest zaznaczona opcja 
     // kazdy z kazdym i na tej podstawie wygernowac drabinke
+      //
+      // OK, zróbcie POST pod /duels/generateLadder
+      //    ze strukturą:
+      //      {
+      //        "weightCategory": "Men Heavy-Weight",
+      //        "firstBracketContestant": 2,            // id lub null
+      //        "secondBracketContestant": null         // id lub null
+      //      }
+      //   Desygnować można (nie trzeba) po jednym zawodniku do każdej ze stron.
+      //   Nie robimy zaznaczania opcji każdy z każdym,
+      //    mamy predefiniowane zasady dla danej liczby zawodników
   };
 
   const handleAddToFirstTeam = (contestant) => {
@@ -70,9 +82,9 @@ function ContestansCategoryList() {
         <h2>Contestants</h2>
         {error && <div className="error-message">{error}</div>}
         {isPending && <div className="loading-message">Loading...</div>}
-        {contestants && (
+        {data && (
           <div className="contestant-list">
-            {contestants
+            {data.contestants
               .filter((contestant) => contestant.weightCategory === category)
               .map((contestant) => (
                 <div className="duel-preview" key={contestant.id}>

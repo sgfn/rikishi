@@ -1,14 +1,17 @@
 package com.rikishi.rikishi.controller;
 
+import com.rikishi.rikishi.model.Sex;
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.Contestant;
 import com.rikishi.rikishi.model.entity.Contestants;
+import com.rikishi.rikishi.model.entity.CategoryCheckResult;
 import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.UserService;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,6 +57,37 @@ public class ContestantsController {
             resConfigProvider.getWeightClassByName(newContestant.weightCategory()).orElseThrow();
 
         userService.addUser(User.fromJson(newContestant, resolvedWeightClass));
+    }
+
+    @PatchMapping("/contestants/{id}")
+    public void patchContestant(@RequestBody Map<String, String> fields, @PathVariable Long id) {
+        User user = userService.getUserById(id).orElseThrow();
+
+        User newUser = new User(
+            user.id(),
+            fields.getOrDefault("name", user.name()),
+            fields.getOrDefault("surname", user.surname()),
+            Integer.parseInt(fields.getOrDefault("age", String.valueOf(user.age()))),
+            Double.parseDouble(fields.getOrDefault("weight", String.valueOf(user.weight()))),
+            resConfigProvider.getWeightClassByName(fields.getOrDefault("weightClass", user.weightClass().name())).orElseThrow(),
+            Sex.fromString(fields.getOrDefault("sex", user.sex().toString())).orElseThrow(),
+            fields.getOrDefault("country", user.country()),
+            fields.getOrDefault("photoLink", user.photoLink())
+        );
+
+        userService.addUser(newUser);
+    }
+
+    @GetMapping("/contestants/{id}")
+    public Contestant getContestant(@PathVariable Long id) {
+        return userService.getUserById(id).orElseThrow().toJson();
+    }
+
+    @GetMapping("/contestants/{id}/validateCategory")
+    public CategoryCheckResult validateContestantCategory(@PathVariable Long id) {
+        return new CategoryCheckResult(
+            userService.getUserById(id).orElseThrow().hasValidCategory()
+        );
     }
 
     @GetMapping("/contestants/filter")

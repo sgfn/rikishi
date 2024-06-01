@@ -6,5 +6,5 @@ public record Duel(
     int number,
     long id,
     String weightCategory,
-    String winner
+    long winner
 ) {}

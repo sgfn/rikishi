@@ -37,4 +37,8 @@ public record User(
     public Long getId() {
         return id;
     }
+
+    public boolean hasValidCategory() {
+        return this.weightClass.isValid(this.sex, this.weight, this.age);
+    }
 }

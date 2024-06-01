@@ -1,11 +1,11 @@
-package com.rikishi.backend.matching.systems;
+package com.rikishi.rikishi.system;
 
-import com.rikishi.backend.matching.Player;
+import com.rikishi.rikishi.model.User;
 
 import java.util.*;
 
 public class TreeBracket implements MatchingSystem {
-    private final List<Player> arrayTree = new ArrayList<>(15);
+    private final List<User> arrayTree = new ArrayList<>(15);
     private int actualMatch;
     private OctetRoundName currentRound;
 
@@ -27,14 +27,14 @@ public class TreeBracket implements MatchingSystem {
     }
 
     @Override
-    public void chooseWinner(Player winner) {
+    public void chooseWinner(User winner) {
         if (getCurrentPlayers().contains(winner)) arrayTree.set(actualMatch, winner);
         else throw new IllegalArgumentException("choosed winner do not play this match");
     }
 
     @Override
-    public Set<Player> getCurrentPlayers() {
-        Set<Player> players = new HashSet<>();
+    public Set<User> getCurrentPlayers() {
+        Set<User> players = new HashSet<>();
         if (arrayTree.isEmpty()) return players;
         if (arrayTree.size() <= (actualMatch + 1) * 2) throw new RuntimeException("Players are out of bound");
         players.add(arrayTree.get((actualMatch + 1) * 2 - 1));
@@ -44,8 +44,8 @@ public class TreeBracket implements MatchingSystem {
     }
 
     @Override
-    public void loadPlayers(Collection<Player> players) {
-        List<Player> playersArray = new ArrayList<>(players);
+    public void loadPlayers(Collection<User> players) {
+        List<User> playersArray = new ArrayList<>(players);
         Collections.shuffle(playersArray);
         currentRound = OctetRoundName.FIRST_FIGHT;
         actualMatch = OctetRoundName.FIRST_FIGHT.getIndexStart();
@@ -53,7 +53,7 @@ public class TreeBracket implements MatchingSystem {
             for (int i = 0; i < players.size() * 2 - 1; i++) {
                 arrayTree.add(null);
             }
-            Iterator<Player> it = playersArray.iterator();
+            Iterator<User> it = playersArray.iterator();
             for (int i = 7; i < 15 && it.hasNext(); i++) {
                 arrayTree.set(i, it.next()); // Assign the next player
             }
@@ -77,7 +77,7 @@ public class TreeBracket implements MatchingSystem {
         printSubTree(arrayTree, 0, 0);
     }
 
-    private static void printSubTree(List<Player> treeList, int index, int level) {
+    private static void printSubTree(List<User> treeList, int index, int level) {
         if (index >= treeList.size()) {
             return;
         }

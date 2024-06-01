@@ -3,6 +3,7 @@ import useFetch from '../hooks/useFetch';
 import useCategoryCheck from '../hooks/useCategoryCheck';
 import './ContestantProfile.css';
 import exitIcon from '../../assets/icons/exit.png';
+import config from '../config.js';
 
 function ContestantProfile() {
   const history = useNavigate();
@@ -11,11 +12,11 @@ function ContestantProfile() {
     data: contestant,
     isPending,
     error: errorFetch,
-  } = useFetch(`http://localhost:8000/contestants/${id}`); // adres tymczasowy do testów
+  } = useFetch(`${config.backendUrl}/contestants/${id}`);
   const {
     wrongCategoryFlag,
     error: errorCategoryCheck
-  } = useCategoryCheck(`http://localhost:8000/check-category/${id}`) // adres tymczasowy do testów
+  } = useCategoryCheck(`${config.backendUrl}/contestants/${id}/validateCategory`)
 
   const handleExit = () => {
     // eslint-disable-next-line no-console
@@ -70,7 +71,7 @@ function ContestantProfile() {
                 </div>
               </p>
               <p>
-                <strong>Weight:</strong>
+                <strong>Category:</strong>
                 <div
                   className="p-right"
                   style={{ color: wrongCategoryFlag ? 'red' : '#333' }}

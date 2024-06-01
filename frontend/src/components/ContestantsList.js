@@ -4,13 +4,14 @@ import './ContestantsList.css';
 import filterIcon from '../../assets/icons/filter.png';
 import sortIcon from '../../assets/icons/sort.png';
 import exitIcon from '../../assets/icons/exit.png';
+import config from '../config.js';
 
 function ContestantsList() {
   const {
-    data: contestants,
+    data: data,
     isPending,
     error,
-  } = useFetch('http://localhost:8000/contestants'); // tymczasowy adres na potrzeby testu
+  } = useFetch(`${config.backendUrl}/contestants`);
   const history = useNavigate();
 
   const handleExit = () => {
@@ -25,9 +26,9 @@ function ContestantsList() {
       <h2>Wrestlers</h2>
       {error && <div className="error-message">{error}</div>}
       {isPending && <div className="loading-message">Loading...</div>}
-      {contestants && (
+      {data && (
         <div className="contestant-list">
-          {contestants.map((contestant) => (
+          {data.contestants.map((contestant) => (
             <div className="contestant-preview" key={contestant.id}>
               <Link to={`/contestants/${contestant.id}`}>
                 <p>
