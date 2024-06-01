@@ -59,7 +59,7 @@ function ContestansCategoryList() {
   return (
     <div className="container">
       <div className="firstTeam">
-        <h1>First team</h1>
+        <h1>First subladder</h1>
         {firstTeam.map((contestant) => (
           <div key={contestant.id}>
             <p>{contestant.name}</p>
@@ -83,14 +83,14 @@ function ContestansCategoryList() {
                       className="addButton"
                       onClick={() => handleAddToFirstTeam(contestant)}
                     >
-                      Add to 1 team
+                      Add to 1 subladder
                     </button>
                     <button
                       type="button"
                       className="addButton"
                       onClick={() => handleAddToSecondTeam(contestant)}
                     >
-                      Add to 2 team
+                      Add to 2 subladder
                     </button>
                   </div>
                 </div>
@@ -105,7 +105,7 @@ function ContestansCategoryList() {
       </button> */}
       </div>
       <div className="SecondTeam">
-        <h1>Second team</h1>
+        <h1>Second subladder</h1>
         {secondTeam.map((contestant) => (
           <div key={contestant.id}>
             <p>{contestant.name}</p>
@@ -122,7 +122,7 @@ function ContestansCategoryList() {
             checked={everyWithEvery}
             onChange={handleEveryWithEveryChange}
           />
-          Every with Every
+          Round-Robin
         </label>
         <button
           type="button"
