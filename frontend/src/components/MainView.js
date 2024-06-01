@@ -11,6 +11,9 @@ function MainView() {
   const handleDuels = () => {
     navigator('/categories');
   };
+  const handleRaport = () => {
+    navigator('/ladder');
+  };
   return (
     <div className="main-view">
       <h2>Welcome to the sumo competition!</h2>
@@ -21,6 +24,9 @@ function MainView() {
         </button>
         <button onClick={handleDuels} type="button" className="goToList">
           Go to Duels
+        </button>
+        <button onClick={handleRaport} type="button" className="goToList">
+          Go to Ladder tournament
         </button>
       </div>
     </div>
