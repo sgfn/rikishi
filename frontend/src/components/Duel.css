@@ -27,7 +27,7 @@ h2 {
 }
 .text-duel-winner{
   font-size:40px;
-  color:red;
+  color:rgb(0, 255, 76);
 }
 .winner{
   display: flex;

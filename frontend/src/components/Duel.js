@@ -27,7 +27,6 @@ function Duel() {
   );
 
   const [isWinnerSelected, setIsWinnerSelected] = useState(false);
-
   const [clicked, setClicked] = useState(false);
   const [clicked2, setClicked2] = useState(false);
 
@@ -38,7 +37,7 @@ function Duel() {
     }
     if (!loading && duel && duel.winner == contestant1.id) {
       setClicked(true);
-    } else {
+    } else if (!loading && duel && duel.winner == contestant2.id) {
       setClicked2(true);
     }
   }, [loading, duel]);
@@ -58,6 +57,8 @@ function Duel() {
     setIsWinnerSelected(!isWinnerSelected);
     const numberValue = parseInt(winnerId, 10);
     usePatch({ winner: numberValue });
+    console.log(winnerId);
+    console.log(contestant1.id);
     if (winnerId == contestant1.id) {
       setClicked(true);
       setClicked2(false);
