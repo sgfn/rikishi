@@ -11,7 +11,8 @@ import CategoryList from '../components/CategoryList.js';
 import Duel from '../components/Duel';
 import WeightInForm from '../components/WeightInForm';
 import CategoryToLadder from '../components/CategoryToLadder.js';
-import ContestantsCategoryList from '../components/ContestantsCategoryList.js'
+import ContestantsCategoryList from '../components/ContestantsCategoryList.js';
+import ChangeCategoryForm from '../components/ChangeCategoryForm.js';
 export default function App() {
   // TODO: this healthcheck should be called periodically
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function App() {
           <Route exact path="/categories" element={<CategoryList />} />
           <Route exact path="/contestants/:id" element={<ContestantProfile />} />
           <Route exact path="/weight-in/:id" element={<WeightInForm />} />
+          <Route exact path="/change-category/:id" element={<ChangeCategoryForm />} />
           <Route exact path="/duels/:weightCategory/:duelId/:id1Contestant/:id2Contestant" element={<Duel />} />
           <Route exact path="/ladder" element={<CategoryToLadder />} />
           <Route
