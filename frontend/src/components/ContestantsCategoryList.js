@@ -12,8 +12,6 @@ function ContestansCategoryList() {
     error,
   } = useFetch('http://localhost:8000/contestants'); // tymczasowy adres na potrzeby testu
   const history = useNavigate();
-  const [firstTeam, setFirstTeam] = useState([]);
-  const [secondTeam, setSecondTeam] = useState([]);
   const [everyWithEvery, setEveryWithEvery] = useState(false);
 
   const handleExit = () => {
@@ -27,44 +25,66 @@ function ContestansCategoryList() {
   };
   const handleSubmitLadder = () => {
     // Implement your submit logic here
-    // COMUNICATE WITH BACKEND 
-    // trzeba wziac pod uwage w ktorej stronie drabonki jest zawodnik i czy jest zaznaczona opcja 
+    // COMUNICATE WITH BACKEND
+    // trzeba wziac pod uwage w ktorej stronie drabonki jest zawodnik i czy jest zaznaczona opcja
     // kazdy z kazdym i na tej podstawie wygernowac drabinke
   };
 
-  const handleAddToFirstTeam = (contestant) => {
-    setFirstTeam((prevFirstTeam) => {
-      if (prevFirstTeam.some((member) => member.id === contestant.id)) {
-        return prevFirstTeam;
+  const [selected, setSelected] = useState([]);
+  const [pairs, setPairs] = useState([]);
+
+  const generatePairs = (selectedContestants) => {
+    const pairs = [];
+    for (let i = 0; i < selectedContestants.length; i += 2) {
+      if (selectedContestants[i + 1]) {
+        pairs.push([selectedContestants[i], selectedContestants[i + 1]]);
       }
-      setSecondTeam((prevSecondTeam) =>
-        prevSecondTeam.filter((member) => member.id !== contestant.id),
-      );
-      return [...prevFirstTeam, contestant];
+    }
+    return pairs;
+  };
+
+  const handleSave = () => {
+    const contestantPairs = generatePairs(selected);
+    setPairs((prevPairs) => [...prevPairs, ...contestantPairs]);
+    setSelected([]);
+  };
+
+  const handleClick = (id) => {
+    setSelected((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((item) => item !== id);
+      }
+      if (prevSelected.length === 2) {
+        return [prevSelected[1], id];
+      }
+      return [...prevSelected, id];
     });
   };
 
-  const handleAddToSecondTeam = (contestant) => {
-    setSecondTeam((prevSecondTeam) => {
-      if (prevSecondTeam.some((member) => member.id === contestant.id)) {
-        return prevSecondTeam;
-      }
-      setFirstTeam((prevFirstTeam) =>
-        prevFirstTeam.filter((member) => member.id !== contestant.id),
-      );
-      return [...prevSecondTeam, contestant];
-    });
+  const handleRemove = (index) => {
+    setPairs((prevPairs) => prevPairs.filter((_, i) => i !== index));
   };
 
   return (
     <div className="container">
       <div className="firstTeam">
-        <h1>First subladder</h1>
-        {firstTeam.map((contestant) => (
-          <div key={contestant.id}>
-            <p>{contestant.name}</p>
-          </div>
-        ))}
+        <h1>
+          Choose contestants and "Save" to put them in different subladder
+        </h1>
+        <div>
+          <ul>
+            {pairs.map((pair, index) => (
+              <li key={index}>{`${pair[0]} and ${pair[1]}`}
+                <button
+                  className="remove-button"
+                  onClick={() => handleRemove(index)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="contestants">
         <h2>Contestants</h2>
@@ -75,24 +95,21 @@ function ContestansCategoryList() {
             {contestants
               .filter((contestant) => contestant.weightCategory === category)
               .map((contestant) => (
-                <div className="duel-preview" key={contestant.id}>
+                <div
+                  key={contestant.id}
+                  className={`duel-preview ${
+                    selected.includes(contestant.id) ? 'selected' : ''
+                  }`}
+                  onClick={() => handleClick(contestant.id)}
+                  tabIndex={0}
+                  role="button"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleClick(contestant.id);
+                    }
+                  }}
+                >
                   <p>{contestant.name}</p>
-                  <div className="addToTeam">
-                    <button
-                      type="button"
-                      className="addButton"
-                      onClick={() => handleAddToFirstTeam(contestant)}
-                    >
-                      Add to 1 subladder
-                    </button>
-                    <button
-                      type="button"
-                      className="addButton"
-                      onClick={() => handleAddToSecondTeam(contestant)}
-                    >
-                      Add to 2 subladder
-                    </button>
-                  </div>
                 </div>
               ))}
           </div>
@@ -103,14 +120,6 @@ function ContestansCategoryList() {
       <button type="button" className="sort-button">
         <img src={sortIcon} alt="sort-icon" />
       </button> */}
-      </div>
-      <div className="SecondTeam">
-        <h1>Second subladder</h1>
-        {secondTeam.map((contestant) => (
-          <div key={contestant.id}>
-            <p>{contestant.name}</p>
-          </div>
-        ))}
       </div>
       <button type="button" className="exit-button" onClick={handleExit}>
         <img src={exitIcon} alt="exit-icon" />
@@ -124,6 +133,9 @@ function ContestansCategoryList() {
           />
           Round-Robin
         </label>
+        <button type="button" onClick={handleSave}>
+          Save
+        </button>
         <button
           type="button"
           className="submit-button"
