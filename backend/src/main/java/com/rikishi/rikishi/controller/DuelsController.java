@@ -54,7 +54,7 @@ public class DuelsController {
             fight.secondUser(),
             fight.number(),
             fight.weightClass(),
-            Long.parseLong(fields.getOrDefault("winner", String.valueOf(fight.winnerId())))
+            Long.parseLong(fields.getOrDefault("winnerId", String.valueOf(fight.winnerId())))
         );
 
         fightService.addFight(newFight);

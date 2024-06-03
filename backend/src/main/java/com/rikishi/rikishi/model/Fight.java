@@ -23,7 +23,7 @@ public record Fight(
             resolvedSecondUser,
             duel.number(),
             resolvedWeightClass,
-            duel.winner()
+            duel.winnerId()
         );
     }
 
