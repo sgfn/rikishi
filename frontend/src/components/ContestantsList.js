@@ -16,7 +16,7 @@ function ContestantsList() {
   const handleExit = () => {
     // eslint-disable-next-line no-console
     console.log('Exit button pressed');
-    history('/ladder');
+    history('/');
   };
 
   // @ts-ignore
