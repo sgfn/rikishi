@@ -4,6 +4,7 @@ import useFetch from '../hooks/useFetch';
 import './Duel.css';
 import exitIcon from '../../assets/icons/exit.png';
 import usePatchData from '../hooks/usePatch';
+import config from '../config.js';
 
 function Duel() {
   const { weightCategory, duelId, id1Contestant, id2Contestant } = useParams();
@@ -12,16 +13,16 @@ function Duel() {
     data: contestant2,
     isPending: isPending2,
     error: error2,
-  } = useFetch(`http://localhost:8000/contestants/${id2Contestant}`);
+  } = useFetch(`${config.backendUrl}/contestants/${id2Contestant}`);
 
   const {
     data: contestant1,
     isPending: isPending1,
     error: error1,
-  } = useFetch(`http://localhost:8000/contestants/${id1Contestant}`);
+  } = useFetch(`${config.backendUrl}/contestants/${id1Contestant}`);
 
   const { data: duel, loading } = useFetch(
-    `http://localhost:8000/duels/${duelId}`,
+    `${config.backendUrl}/duels/${duelId}`,
     [],
     { suspense: true },
   );
@@ -32,7 +33,7 @@ function Duel() {
 
   useEffect(() => {
     if (!loading && duel) {
-      const winnerExists = duel.winner !== '' && duel.winner !== undefined;
+      const winnerExists = duel.winner !== '' && duel.winner !== undefined && duel.winner !== -1;
       setIsWinnerSelected(winnerExists);
     }
     if (!loading && duel && duel.winner == contestant1.id) {
@@ -50,13 +51,13 @@ function Duel() {
   };
 
   const { isLoading, error, response, usePatch } = usePatchData(
-    `http://localhost:8000/duels/${duelId}`,
+    `${config.backendUrl}/duels/${duelId}`,
   );
 
   const handleWinner = (winnerId) => {
     setIsWinnerSelected(!isWinnerSelected);
     const numberValue = parseInt(winnerId, 10);
-    usePatch({ winner: numberValue });
+    usePatch({ winnerId: numberValue });
     console.log(winnerId);
     console.log(contestant1.id);
     if (winnerId == contestant1.id) {

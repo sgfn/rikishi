@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import usePatchData from '../hooks/usePatchData';
 import './WeightInForm.css';
 import exitIcon from '../../assets/icons/exit.png';
-
+import config from '../config.js';
 
 function WeightInForm() {
   const [newWeight, setNewWeight] = useState(null);
@@ -14,7 +14,7 @@ function WeightInForm() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     response,
     patchData,
-  } = usePatchData(`http://localhost:8000/contestants/${id}`);
+  } = usePatchData(`${config.backendUrl}/contestants/${id}`);
   const history = useNavigate();
 
   const handleSubmit = (e) => {
@@ -41,7 +41,7 @@ function WeightInForm() {
           <label>Enter the new weight:</label>
           <br />
           <input
-            type="number"
+            type="float"
             required
             value={newWeight}
             onChange={(e) => setNewWeight(e.target.value)}

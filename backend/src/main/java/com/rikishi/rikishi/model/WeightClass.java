@@ -15,4 +15,8 @@ public record WeightClass(
     Sex sex,
     Range<Double> weight,
     Range<Integer> age
-) {}
+) {
+    public boolean isValid(Sex sex, double weight, int age) {
+        return this.sex.equals(sex) && this.weight.contains(weight) && this.age.contains(age);
+    }
+}
