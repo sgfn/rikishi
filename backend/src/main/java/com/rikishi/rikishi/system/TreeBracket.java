@@ -94,4 +94,25 @@ public class TreeBracket implements MatchingSystem {
         }
         System.out.println(value);
     }
+
+    public void swapPlayers(int index1, int index2) {
+        if (index1 < 0 || index1 >= arrayTree.size() || index2 < 0 || index2 >= arrayTree.size()) {
+            throw new IllegalArgumentException("Index out of bounds");
+        }
+        index1 = arrayTree.size() - index1 - 1;
+        index2 = arrayTree.size() - index2 - 1;
+        if (index1 < 7 || index2 < 7) {
+            throw new IllegalArgumentException("This part is reserved for next matches. Wrong index.");
+        }
+        if (arrayTree.get(index1) == null || arrayTree.get(index2) == null) {
+            throw new IllegalArgumentException("Cannot swap with null");
+        }
+        Player temp = arrayTree.get(index1);
+        arrayTree.set(index1, arrayTree.get(index2));
+        arrayTree.set(index2, temp);
+    }
+
+    public List<Player> getArrayTree() {
+        return arrayTree;
+    }
 }
