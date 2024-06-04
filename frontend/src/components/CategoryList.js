@@ -2,13 +2,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import './CategoryList.css';
 import exitIcon from '../../assets/icons/exit.png';
+import config from '../config.js';
 
 function CategoryList() {
   const {
-    data: duels,
+    data: data,
     isPending,
     error,
-  } = useFetch('http://localhost:8000/duels'); // tymczasowy adres na potrzeby testu
+  } = useFetch(`${config.backendUrl}/weightCategories`);
   const history = useNavigate();
 
   const handleExit = () => {
@@ -23,9 +24,9 @@ function CategoryList() {
       <h2>Categories</h2>
       {error && <div className="error-message">{error}</div>}
       {isPending && <div className="loading-message">Loading...</div>}
-      {duels && (
+      {data && (
         <div className="category-list">
-          {[...new Set(duels.map((duel) => duel.weightCategory))].map(
+          {[...new Set(data.weightCategories)].map(
             (category) => (
               <div className="category-preview">
                 <Link to={`/categories/${category}`}>

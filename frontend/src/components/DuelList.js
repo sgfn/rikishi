@@ -2,14 +2,15 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import './DuelList.css';
 import exitIcon from '../../assets/icons/exit.png';
+import config from '../config.js';
 
 function DuelList() {
   const { category } = useParams();
   const {
-    data: duels,
+    data: data,
     isPending,
     error,
-  } = useFetch('http://localhost:8000/duels'); // tymczasowy adres na potrzeby testu
+  } = useFetch(`${config.backendUrl}/duels`);
   const history = useNavigate();
 
   const handleExit = () => {
@@ -23,16 +24,16 @@ function DuelList() {
       <h2>Duels</h2>
       {error && <div className="error-message">{error}</div>}
       {isPending && <div className="loading-message">Loading...</div>}
-      {duels && (
+      {data && (
         <div className="duel-list">
-          {duels
+          {data.duels
             .filter((duel) => duel.weightCategory === category)
             .map((duel) => (
               <div className="duel-preview" key={duel.id}>
                 <Link
                   to={`/duels/${duel.weightCategory}/${duel.id}/${duel.id1Contestant}/${duel.id2Contestant}`}
                 >
-                  <p>Duel nr. {duel.id}</p>
+                  <p>Duel no. {duel.id}</p>
                 </Link>
               </div>
             ))}

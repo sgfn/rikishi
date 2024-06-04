@@ -16,7 +16,7 @@ const useCategoryCheck = (url) => {
       })
       // eslint-disable-next-line @typescript-eslint/no-shadow,promise/always-return
       .then((data) => {
-        setWrongCategoryFlag(data.flag);
+        setWrongCategoryFlag(!data.hasValidCategory);
         setError(null);
       })
       .catch((err) => {
