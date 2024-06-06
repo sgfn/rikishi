@@ -9,8 +9,12 @@ import com.rikishi.rikishi.model.entity.CategoryCheckResult;
 import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.UserService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -99,5 +103,16 @@ public class ContestantsController {
         @RequestParam(required = false) Integer maxAge) {
         Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
         return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
+    }
+
+    @PostMapping("/contestants/import-csv")
+    public void importCSV(
+        @RequestBody String path
+    ) {
+        try {
+            userService.importFromFile(Path.of(path));
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 }
