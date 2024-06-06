@@ -53,6 +53,7 @@ public class UserService implements AutoCloseable {
 
 
     public void importFromFile(Path path) throws IOException {
+        userRepository.removeAll();
         userRepository.addAll(userLoader.load(path));
     }
 
