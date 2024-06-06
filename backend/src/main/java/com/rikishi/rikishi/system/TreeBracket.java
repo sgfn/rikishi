@@ -1,6 +1,8 @@
 package com.rikishi.rikishi.system;
 
 import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.model.entity.Duel;
+import com.rikishi.rikishi.model.entity.Duels;
 
 import java.util.*;
 
@@ -40,6 +42,14 @@ public class TreeBracket implements MatchingSystem {
         players.add(arrayTree.get((actualMatch + 1) * 2 - 1));
         players.add(arrayTree.get((actualMatch + 1) * 2));
         players.remove(null);
+        return players;
+    }
+
+    private Set<User> getPlayersByFromDuelID(int duelId) {
+        int tmp = actualMatch;
+        actualMatch = duelId;
+        Set<User> players = getCurrentPlayers();
+        actualMatch = tmp;
         return players;
     }
 
@@ -107,12 +117,53 @@ public class TreeBracket implements MatchingSystem {
         if (arrayTree.get(index1) == null || arrayTree.get(index2) == null) {
             throw new IllegalArgumentException("Cannot swap with null");
         }
-        Player temp = arrayTree.get(index1);
+        User temp = arrayTree.get(index1);
         arrayTree.set(index1, arrayTree.get(index2));
         arrayTree.set(index2, temp);
     }
 
-    public List<Player> getArrayTree() {
+    public List<User> getArrayTree() {
         return arrayTree;
+    }
+
+    private Duels getDuelsFromRange(int a, int b) {
+        List<Duel> duels = new ArrayList<>();
+        for (int i = a; i < b; i++) {
+            ArrayList<User> players = new ArrayList<>(getPlayersByFromDuelID(i));
+            long winnerId = (arrayTree.get(i) == null) ? -1 : arrayTree.get(i).id();
+            if (players.size() == 1) {
+                winnerId = players.get(0).id();
+            }
+            while (players.size() < 2) players.add(null);
+            duels.add(new Duel(
+                players.get(0).id(),
+                players.get(1).id(),
+                0,
+                i,
+                "",
+                winnerId
+            ));
+        }
+        return new Duels(duels);
+    }
+
+    public Duels getDuelsBracket() {
+        return getDuelsFromRange(0, 7);
+    }
+
+    public Duels getActualRoundDuels() {
+        return getDuelsFromRange(currentRound.getIndexStart(), currentRound.getIndexBound());
+    }
+
+    public void updateDuels(List<Duel> duels) {
+        for (Duel duel : duels) {
+            if (duel.winnerId() == -1) throw new RuntimeException("at Least One Duel is not resolved");
+            long winnerId = duel.winnerId();
+            actualMatch = (int) duel.id();
+            User winner = (User) getCurrentPlayers().stream().filter(player -> player.id() == winnerId).toArray()[0];
+            chooseWinner(winner);
+        }
+        currentRound = currentRound.goUp();
+        actualMatch = currentRound.getIndexStart();
     }
 }
