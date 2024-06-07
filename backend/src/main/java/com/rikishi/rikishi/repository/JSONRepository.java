@@ -115,6 +115,11 @@ public class JSONRepository<T extends Indexable<ID>, ID> implements Repository<T
     }
 
     @Override
+    public void removeAll() {
+        data.clear();
+    }
+
+    @Override
     public void load() throws IOException {
         var array = (T[]) mapper.readerForArrayOf(clazz).readValue(rwSupplier.reader());
 
