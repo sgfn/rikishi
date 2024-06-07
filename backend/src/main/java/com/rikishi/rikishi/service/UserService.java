@@ -31,19 +31,24 @@ public class UserService implements AutoCloseable {
         return userRepository.findAll();
     }
 
-    public Stream<User> getUsersSortedByAge() { return userRepository.findAll().sorted(Comparator.comparing(User::age)); }
+    public Stream<User> getUsers(String sort) {
+        if (sort == null)
+            return getUsers();
 
-    public Stream<User> getUsersSortedByName() { return userRepository.findAll().sorted(Comparator.comparing(User::name)); }
-
-    public Stream<User> getUsersSortedByWeight() { return userRepository.findAll().sorted(Comparator.comparing(User::weight)); }
+        return switch (sort) {
+            case "age" -> userRepository.findAll().sorted(Comparator.comparing(User::age));
+            case "name" -> userRepository.findAll().sorted(Comparator.comparing(User::name));
+            case "weight" -> userRepository.findAll().sorted(Comparator.comparing(User::weight));
+            default -> getUsers();
+        };
+    }
 
     public Optional<User> getUserById(long id) {
         return userRepository.findById(id);
     }
 
-
-    public Stream<User> filterUsers(Double minWeight, Double maxWeight, String sex, Integer minAge, Integer maxAge) {
-        return getUsers()
+    public Stream<User> sortFilterUsers(String sort, Double minWeight, Double maxWeight, String sex, Integer minAge, Integer maxAge) {
+        return getUsers(sort)
             .filter(user -> minWeight == null || user.weight() >= minWeight)
             .filter(user -> maxWeight == null || user.weight() <= maxWeight)
             .filter(user -> sex == null || user.sex().toString().equalsIgnoreCase(sex))
@@ -53,6 +58,7 @@ public class UserService implements AutoCloseable {
 
 
     public void importFromFile(Path path) throws IOException {
+        userRepository.removeAll();
         userRepository.addAll(userLoader.load(path));
     }
 

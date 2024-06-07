@@ -22,6 +22,8 @@ public interface Repository<T extends Indexable<ID>, ID> {
 
     boolean remove(T value);
 
+    void removeAll();
+
     void load() throws IOException;
     void save() throws IOException;
 }

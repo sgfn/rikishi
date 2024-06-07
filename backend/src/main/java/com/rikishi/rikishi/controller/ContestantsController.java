@@ -9,8 +9,12 @@ import com.rikishi.rikishi.model.entity.CategoryCheckResult;
 import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.UserService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,32 +30,25 @@ public class ContestantsController {
     }
 
     @GetMapping("/contestants")
-    public Contestants getContestants() {
-        return new Contestants(
-            userService.getUsers().map(User::toJson).toList()
-        );
-    }
-
-    @GetMapping("/contestants/sorted/{userField}")
-    public Contestants getSortedContestants(@PathVariable String userField) {
-        return switch (userField) {
-            case "age" -> new Contestants(
-                userService.getUsersSortedByAge().map(User::toJson).toList()
-            );
-            case "name" -> new Contestants(
-                userService.getUsersSortedByName().map(User::toJson).toList()
-            );
-            case "weight" -> new Contestants(
-                userService.getUsersSortedByWeight().map(User::toJson).toList()
-            );
-            default -> throw new RuntimeException("contestants sort argument is not valid");
-        };
+    public Contestants getContestants(
+        @RequestParam(required = false) Double minWeight,
+        @RequestParam(required = false) Double maxWeight,
+        @RequestParam(required = false) String sex,
+        @RequestParam(required = false) Integer minAge,
+        @RequestParam(required = false) Integer maxAge,
+        @RequestParam(required = false) String sort
+    ) {
+        Stream<User> filteredUsers = userService.sortFilterUsers(sort, minWeight, maxWeight, sex, minAge, maxAge);
+        return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
     }
 
     @PutMapping("/contestants/{id}")
     public void putContestant(@RequestBody Contestant newContestant, @PathVariable Long id) {
         if (newContestant.id() != id)
             throw new RuntimeException("contestant id differs");
+
+        if (newContestant.weight() <= 0.0)
+            throw new RuntimeException("Invalid contestant weight");
 
         WeightClass resolvedWeightClass =
             resConfigProvider.getWeightClassByName(newContestant.weightCategory()).orElseThrow();
@@ -63,12 +60,16 @@ public class ContestantsController {
     public void patchContestant(@RequestBody Map<String, String> fields, @PathVariable Long id) {
         User user = userService.getUserById(id).orElseThrow();
 
+        double weight = Double.parseDouble(fields.getOrDefault("weight", String.valueOf(user.weight())));
+        if (weight <= 0.0)
+            throw new RuntimeException("Invalid contestant weight");
+
         User newUser = new User(
             user.id(),
             fields.getOrDefault("name", user.name()),
             fields.getOrDefault("surname", user.surname()),
             Integer.parseInt(fields.getOrDefault("age", String.valueOf(user.age()))),
-            Double.parseDouble(fields.getOrDefault("weight", String.valueOf(user.weight()))),
+            weight,
             resConfigProvider.getWeightClassByName(fields.getOrDefault("weightClass", user.weightClass().name())).orElseThrow(),
             Sex.fromString(fields.getOrDefault("sex", user.sex().toString())).orElseThrow(),
             fields.getOrDefault("country", user.country()),
@@ -99,5 +100,16 @@ public class ContestantsController {
         @RequestParam(required = false) Integer maxAge) {
         Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
         return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
+    }
+
+    @PostMapping("/contestants/import-csv")
+    public void importCSV(
+        @RequestBody String path
+    ) {
+        try {
+            userService.importFromFile(Path.of(path));
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 }
