@@ -33,7 +33,7 @@ public class FightService implements AutoCloseable {
                 fightRepository.addAll(matchingSystem.getAllFights());
                 tournaments.put(weightClass, matchingSystem);
             } catch (IllegalArgumentException e) {
-                System.err.println(e.getMessage());
+                System.err.println(weightClass.name() + "\t\t\t" + e.getMessage());
             }
         }
         ;
@@ -51,6 +51,10 @@ public class FightService implements AutoCloseable {
     public Stream<Fight> getCurrFights() {
         return tournaments.values().stream()
             .flatMap(system -> system.getCurrentFights().stream());
+    }
+    public Stream<Fight> getAllFights() {
+        return tournaments.values().stream()
+            .flatMap(system -> system.getAllFights().stream());
     }
 
     public Optional<Fight> getFightById(long id) {

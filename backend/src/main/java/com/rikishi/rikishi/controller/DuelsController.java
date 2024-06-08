@@ -49,6 +49,13 @@ public class DuelsController {
         );
     }
 
+    @GetMapping("/duels")
+    public Duels getDuels() {
+        return new Duels(
+            fightService.getAllFights().map(Fight::toJson).toList()
+        );
+    }
+
     @GetMapping("/duels/{id}")
     public Duel getDuel(@PathVariable Long id) {
         return fightService.getFightById(id).orElseThrow().toJson();
