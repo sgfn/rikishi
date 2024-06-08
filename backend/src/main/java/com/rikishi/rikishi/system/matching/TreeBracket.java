@@ -1,14 +1,13 @@
-package com.rikishi.rikishi.system;
+package com.rikishi.rikishi.system.matching;
 
 import com.rikishi.rikishi.model.Fight;
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.Duel;
-import com.rikishi.rikishi.model.entity.Duels;
 
 import java.util.*;
 
-public class TreeBracket implements MatchingSystem {
+public class TreeBracket implements MatchingSystem, MatchingSystem_II {
     private final List<User> arrayTree = new ArrayList<>(15);
     private int actualMatch;
     private OctetRoundName currentRound;
@@ -84,12 +83,12 @@ public class TreeBracket implements MatchingSystem {
         Map<WeightClass, Integer> weightCategoryFrequency = new HashMap<>();
         for (User user : players) {
             WeightClass userCategory = user.weightClass();
-            if(weightCategoryFrequency.containsKey(userCategory)){
+            if (weightCategoryFrequency.containsKey(userCategory)) {
                 weightCategoryFrequency.put(
-                     userCategory,
+                    userCategory,
                     weightCategoryFrequency.get(userCategory) + 1
                 );
-            }else {
+            } else {
                 weightCategoryFrequency.put(userCategory, 1);
             }
         }
@@ -172,21 +171,25 @@ public class TreeBracket implements MatchingSystem {
         return duels;
     }
 
-    public List<Fight> getDuelsBracket() {
+    public List<Fight> getAllFights() {
         return getDuelsFromRange(0, 7);
     }
 
-    public List<Fight> getActualRoundDuels() {
+    public List<Fight> getCurrentFights() {
         return getDuelsFromRange(currentRound.getIndexStart(), currentRound.getIndexBound());
     }
 
-    public void updateDuels(List<Duel> duels) {
-        for (Duel duel : duels) {
-            if (duel.winnerId() == -1) throw new RuntimeException("at Least One Duel is not resolved");
-            long winnerId = duel.winnerId();
-            actualMatch = (int) duel.id();
-            User winner = (User) getCurrentPlayers().stream().filter(player -> player.id() == winnerId).toArray()[0];
-            chooseWinner(winner);
+    public void updateFight(Fight fight) {
+        if (fight.winnerId() == -1) throw new RuntimeException("Fight is not resolved");
+        long winnerId = fight.winnerId();
+        actualMatch = (int) fight.id();
+        User winner = (User) getCurrentPlayers().stream().filter(player -> player.id() == winnerId).toArray()[0];
+        chooseWinner(winner);
+
+        for (int id = currentRound.getIndexStart(); id <= currentRound.getIndexBound(); id++) {
+            if (arrayTree.get(id) == null) {
+                return;
+            }
         }
         currentRound = currentRound.goUp();
         actualMatch = currentRound.getIndexStart();

@@ -91,17 +91,6 @@ public class ContestantsController {
         );
     }
 
-    @GetMapping("/contestants/filter")
-    public Contestants filterContestants(
-        @RequestParam(required = false) Double minWeight,
-        @RequestParam(required = false) Double maxWeight,
-        @RequestParam(required = false) String sex,
-        @RequestParam(required = false) Integer minAge,
-        @RequestParam(required = false) Integer maxAge) {
-        Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
-        return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
-    }
-
     @PostMapping("/contestants/import-csv")
     public void importCSV(
         @RequestBody String path

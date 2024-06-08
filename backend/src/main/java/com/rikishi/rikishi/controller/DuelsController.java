@@ -6,6 +6,7 @@ import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.Duel;
 import com.rikishi.rikishi.model.entity.Duels;
 import com.rikishi.rikishi.provider.ConfigProvider;
+import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.FightService;
 import com.rikishi.rikishi.service.UserService;
 
@@ -24,17 +25,27 @@ public class DuelsController {
     private final FightService fightService;
     private final UserService userService;
     private final ConfigProvider configProvider;
+    private final ResConfigProvider resConfigProvider;
 
-    DuelsController(FightService fs, UserService us, ConfigProvider cp) {
+    DuelsController(FightService fs, UserService us, ConfigProvider cp, ResConfigProvider rcp) {
         this.fightService = fs;
         this.userService = us;
         this.configProvider = cp;
+        this.resConfigProvider = rcp;
     }
 
-    @GetMapping("/duels")
-    public Duels getDuels() {
+    @GetMapping("/duels/{weightCategory}")
+    public Duels getCategoryDuels(@PathVariable String weightCategory) {
         return new Duels(
-            fightService.getFights().map(Fight::toJson).toList()
+            fightService.getAllCategoryFights(
+                resConfigProvider.getWeightClassByName(weightCategory).orElseThrow()).map(Fight::toJson).toList()
+        );
+    }
+
+    @GetMapping("/duels/curr")
+    public Duels getCurrentDuels() {
+        return new Duels(
+            fightService.getCurrFights().map(Fight::toJson).toList()
         );
     }
 
@@ -46,6 +57,7 @@ public class DuelsController {
     // can update winner only
     @PatchMapping("/duels/{id}")
     public void patchDuel(@RequestBody Map<String, String> fields, @PathVariable Long id) {
+//        do zmiany
         Fight fight = fightService.getFightById(id).orElseThrow();
 
         Fight newFight = new Fight(
@@ -53,13 +65,13 @@ public class DuelsController {
             fight.firstUser(),
             fight.secondUser(),
             fight.number(),
-            fight.score1(),
-            fight.score2(),
+            Integer.parseInt(fields.getOrDefault("score1", "0")),
+            Integer.parseInt(fields.getOrDefault("score2", "0")),
             fight.weightClass(),
             Long.parseLong(fields.getOrDefault("winnerId", String.valueOf(fight.winnerId())))
         );
 
-        fightService.addFight(newFight);
+        fightService.updateFight(newFight);
     }
 
     @PostMapping("/duels/generateLadder")

@@ -1,9 +1,7 @@
-package com.rikishi.rikishi.system;
+package com.rikishi.rikishi.system.matching;
 
 public enum OctetRoundName {
-    FINAL,
-    SEMI_FINAL,
-    FIRST_FIGHT;
+    FINAL, SEMI_FINAL, FIRST_FIGHT;
 
     public int getIndexBound() {
         return switch (this) {
