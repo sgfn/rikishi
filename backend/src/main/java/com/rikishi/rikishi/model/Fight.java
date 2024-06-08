@@ -7,6 +7,8 @@ public record Fight(
     User firstUser,
     User secondUser,
     int number,
+    int score1,
+    int score2,
     WeightClass weightClass,
     // -1 if no winner. Yes I know it's an anti-pattern, don't have time to correct it
     long winnerId
@@ -22,6 +24,8 @@ public record Fight(
             resolvedFirstUser,
             resolvedSecondUser,
             duel.number(),
+            duel.score1(),
+            duel.score2(),
             resolvedWeightClass,
             duel.winnerId()
         );
@@ -30,8 +34,12 @@ public record Fight(
     public Duel toJson() {
         return new Duel(
             firstUser.id(),
+            firstUser.name(),
             secondUser.id(),
+            secondUser.name(),
             number,
+            score1,
+            score2,
             id,
             weightClass.name(),
             winnerId
