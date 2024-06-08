@@ -53,6 +53,8 @@ public class DuelsController {
             fight.firstUser(),
             fight.secondUser(),
             fight.number(),
+            fight.score1(),
+            fight.score2(),
             fight.weightClass(),
             Long.parseLong(fields.getOrDefault("winnerId", String.valueOf(fight.winnerId())))
         );

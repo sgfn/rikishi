@@ -1,6 +1,8 @@
 package com.rikishi.rikishi.system;
 
+import com.rikishi.rikishi.model.Fight;
 import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.Duel;
 import com.rikishi.rikishi.model.entity.Duels;
 
@@ -10,6 +12,7 @@ public class TreeBracket implements MatchingSystem {
     private final List<User> arrayTree = new ArrayList<>(15);
     private int actualMatch;
     private OctetRoundName currentRound;
+    private WeightClass weightCategory;
 
     @Override
     public void nextMatch() {
@@ -77,6 +80,24 @@ public class TreeBracket implements MatchingSystem {
         } else {
             throw new RuntimeException("implement only for 6 to 8 players");
         }
+
+        Map<WeightClass, Integer> weightCategoryFrequency = new HashMap<>();
+        for (User user : players) {
+            WeightClass userCategory = user.weightClass();
+            if(weightCategoryFrequency.containsKey(userCategory)){
+                weightCategoryFrequency.put(
+                     userCategory,
+                    weightCategoryFrequency.get(userCategory) + 1
+                );
+            }else {
+                weightCategoryFrequency.put(userCategory, 1);
+            }
+        }
+        Optional<Map.Entry<WeightClass, Integer>> maxEntry = weightCategoryFrequency.entrySet()
+            .stream()
+            .max(Map.Entry.comparingByValue());
+
+        maxEntry.ifPresent(entry -> weightCategory = entry.getKey());
     }
 
     public void printBracket() {
@@ -126,8 +147,8 @@ public class TreeBracket implements MatchingSystem {
         return arrayTree;
     }
 
-    private Duels getDuelsFromRange(int a, int b) {
-        List<Duel> duels = new ArrayList<>();
+    private List<Fight> getDuelsFromRange(int a, int b) {
+        List<Fight> duels = new ArrayList<>();
         for (int i = a; i < b; i++) {
             ArrayList<User> players = new ArrayList<>(getPlayersByFromDuelID(i));
             long winnerId = (arrayTree.get(i) == null) ? -1 : arrayTree.get(i).id();
@@ -135,23 +156,27 @@ public class TreeBracket implements MatchingSystem {
                 winnerId = players.get(0).id();
             }
             while (players.size() < 2) players.add(null);
-            duels.add(new Duel(
-                players.get(0).id(),
-                players.get(1).id(),
-                0,
+            int score1 = (winnerId == players.get(0).id()) ? 1 : 0;
+            int score2 = (winnerId == players.get(1).id()) ? 1 : 0;
+            duels.add(new Fight(
                 i,
-                "",
+                players.get(0),
+                players.get(1),
+                0,
+                score1,
+                score2,
+                weightCategory,
                 winnerId
             ));
         }
-        return new Duels(duels);
+        return duels;
     }
 
-    public Duels getDuelsBracket() {
+    public List<Fight> getDuelsBracket() {
         return getDuelsFromRange(0, 7);
     }
 
-    public Duels getActualRoundDuels() {
+    public List<Fight> getActualRoundDuels() {
         return getDuelsFromRange(currentRound.getIndexStart(), currentRound.getIndexBound());
     }
 
