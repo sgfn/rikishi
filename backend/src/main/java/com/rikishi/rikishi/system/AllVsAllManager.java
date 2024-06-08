@@ -1,12 +1,13 @@
-package backend.matching.systems;
+package com.rikishi.rikishi.system;
 
-import backend.matching.Player;
+import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.model.entity.Duel;
 
 import java.util.*;
 
 public class AllVsAllManager implements MatchingSystem {
     private AllVsAll matchingSystem;
-    private Map<Player, Integer> finalStandings;
+    private Map<User, Integer> finalStandings;
 
     public AllVsAllManager() {
         matchingSystem = new AllVsAll();
@@ -26,7 +27,7 @@ public class AllVsAllManager implements MatchingSystem {
     }
 
     private void handleTournamentEnd() {
-        Set<Player> winners = determineWinners();
+        Set<User> winners = determineWinners();
         if (winners.size() == 1) {
             printStandings();
         } else {
@@ -37,32 +38,32 @@ public class AllVsAllManager implements MatchingSystem {
     }
 
     private void printStandings() {
-        List<Map.Entry<Player, Integer>> result = new ArrayList<>(finalStandings.entrySet());
+        List<Map.Entry<User, Integer>> result = new ArrayList<>(finalStandings.entrySet());
 
         result.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-        Map<Player, Integer> sortedMapByValue = new LinkedHashMap<>();
-        for (Map.Entry<Player, Integer> entry : result) {
+        Map<User, Integer> sortedMapByValue = new LinkedHashMap<>();
+        for (Map.Entry<User, Integer> entry : result) {
             sortedMapByValue.put(entry.getKey(), entry.getValue());
         }
 
-        for (Map.Entry<Player, Integer> entry : sortedMapByValue.entrySet()) {
+        for (Map.Entry<User, Integer> entry : sortedMapByValue.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
         finalStandings = sortedMapByValue;
     }
 
-    public Map<Player, Integer> getFinalStandings() {
+    public Map<User, Integer> getFinalStandings() {
         return finalStandings;
     }
 
 
-    private Set<Player> determineWinners() {
+    private Set<User> determineWinners() {
         int maxWins = matchingSystem.getMostWins();
-        Map<Player, Integer> playerWins = matchingSystem.getPlayerWins();
+        Map<User, Integer> playerWins = matchingSystem.getPlayerWins();
 
-        Set<Player> winners = new HashSet<>();
-        for (Map.Entry<Player, Integer> entry : playerWins.entrySet()) {
+        Set<User> winners = new HashSet<>();
+        for (Map.Entry<User, Integer> entry : playerWins.entrySet()) {
             if (finalStandings.containsKey(entry.getKey())) {
                 finalStandings.put(entry.getKey(), finalStandings.get(entry.getKey()) + playerWins.get(entry.getKey()));
             } else {
@@ -77,17 +78,17 @@ public class AllVsAllManager implements MatchingSystem {
     }
 
     @Override
-    public void chooseWinner(Player winner) {
+    public void chooseWinner(User winner) {
         matchingSystem.chooseWinner(winner);
     }
 
     @Override
-    public Set<Player> getCurrentPlayers() {
+    public Set<User> getCurrentPlayers() {
         return matchingSystem.getCurrentPlayers();
     }
 
     @Override
-    public void loadPlayers(Collection<Player> players) {
+    public void loadPlayers(Collection<User> players) {
         if (players.size() < 3 || players.size() > 5) {
             throw new IllegalArgumentException("Invalid number of players");
         }
@@ -96,5 +97,9 @@ public class AllVsAllManager implements MatchingSystem {
 
     public AllVsAll getMatchingSystem() {
         return matchingSystem;
+    }
+
+    public List<Duel> getDuels() {
+        return matchingSystem.getDuels();
     }
 }

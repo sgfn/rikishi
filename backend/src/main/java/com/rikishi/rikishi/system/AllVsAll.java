@@ -1,34 +1,39 @@
-package backend.matching.systems;
+package com.rikishi.rikishi.system;
 
-import backend.matching.Player;
+
+import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.model.entity.Duel;
 
 import java.util.*;
 
 public class AllVsAll implements MatchingSystem {
-    private final Map<Player, Integer> playerToId = new HashMap<>();
-    private final Map<Player, Integer> playerWins = new HashMap<>();
+    private final Map<User, Integer> playerToId = new HashMap<>();
+    private final Map<User, Integer> playerWins = new HashMap<>();
     private int mostWins = -1;
     private final List<List<List<Integer>>> results = new ArrayList<>();
+    private final List<Duel> duels = new ArrayList<>();
     private int currentRow = 0;
     private int currentColumn = 1;
     private int nextPlayerFor0 = 2;
     private int numOfPlayers;
     private boolean matchInProgress = false;
+    private long duelIdCounter = 0;
 
     @Override
-    public void loadPlayers(Collection<Player> players) {
+    public void loadPlayers(Collection<User> players) {
         numOfPlayers = players.size();
         if (numOfPlayers > 5) {
             throw new IllegalArgumentException("Invalid number of players");
         }
         fillPlayersMap(players);
         resultsListInit(numOfPlayers, numOfPlayers, 2);
+        generateDuels(players);
         matchInProgress = true;
     }
 
-    private void fillPlayersMap(Collection<Player> players) {
+    private void fillPlayersMap(Collection<User> players) {
         int id = 0;
-        for (Player player : players) {
+        for (User player : players) {
             playerToId.put(player, id);
             playerWins.put(player, 0);
             id++;
@@ -50,16 +55,50 @@ public class AllVsAll implements MatchingSystem {
         }
     }
 
-    public Integer getPlayerId(Player player) {
+    private void generateDuels(Collection<User> players) {
+        int duelNumber = 1;
+        int currentRow = 0;
+        int currentColumn = 1;
+        int nextPlayerFor0 = 2;
+
+        // Iterujemy po macierzy wyników w określonej kolejności
+        while (duelNumber <= numOfPlayers * (numOfPlayers - 1) / 2) {
+            User player1 = idToPlayer(currentRow);
+            User player2 = idToPlayer(currentColumn);
+
+            Duel duel = new Duel(
+                player1.id(),
+                player2.id(),
+                duelNumber,
+                duelIdCounter++,
+                player1.weightClass().name() + " - " + player1.sex().toString().charAt(0),
+                -1
+            );
+            duels.add(duel);
+            duelNumber++;
+
+            // Aktualizujemy indeksy do kolejnego pojedynku w macierzy wyników
+            if (currentColumn == numOfPlayers - 1) {
+                currentRow = 0;
+                currentColumn = nextPlayerFor0;
+                nextPlayerFor0++;
+            } else {
+                currentRow++;
+                currentColumn++;
+            }
+        }
+    }
+
+    public Integer getPlayerId(User player) {
         return playerToId.get(player);
     }
 
-    public Integer getPlayerWins(Player player) {
+    public Integer getPlayerWins(User player) {
         return playerWins.get(player);
     }
 
-    public Player idToPlayer(Integer playerId) {
-        for (Map.Entry<Player, Integer> entry : playerToId.entrySet()) {
+    public User idToPlayer(Integer playerId) {
+        for (Map.Entry<User, Integer> entry : playerToId.entrySet()) {
             if (entry.getValue().equals(playerId)) {
                 return entry.getKey();
             }
@@ -86,8 +125,12 @@ public class AllVsAll implements MatchingSystem {
         matchInProgress = true;
     }
 
+    public List<Duel> getDuels() {
+        return duels;
+    }
+
     @Override
-    public void chooseWinner(Player winner) {
+    public void chooseWinner(User winner) {
         int loserId;
         int winnerId;
         if (getPlayerId(winner) == currentColumn) {
@@ -99,11 +142,12 @@ public class AllVsAll implements MatchingSystem {
         }
         int currentValue = results.get(winnerId).get(loserId).get(0);
 //        if we play to 2 wins
-        if (currentValue == 2 || results.get(winnerId).get(loserId).get(1) == 2) {
+        if (currentValue == 3 || results.get(winnerId).get(loserId).get(1) == 3) {
             throw new IllegalArgumentException("Match has been settled earlier");
+        } else {
+            results.get(winnerId).get(loserId).set(0, currentValue + 1);
+            results.get(loserId).get(winnerId).set(1, currentValue + 1);
         }
-        results.get(winnerId).get(loserId).set(0, currentValue + 1);
-        results.get(loserId).get(winnerId).set(1, currentValue + 1);
         if (results.get(winnerId).get(loserId).get(0) == 2) {
             matchInProgress = false;
             int newScore = playerWins.getOrDefault(winner, 0) + 1;
@@ -111,12 +155,26 @@ public class AllVsAll implements MatchingSystem {
                 mostWins = newScore;
             }
             playerWins.put(winner, newScore);
-            System.out.println("Winner: " + winner);
+//            System.out.println("Winner: " + winner);
+
+            // Aktualizacja listy pojedynków
+            Duel foundDuel = null;
+            for (Duel duel : duels) {
+                if ((duel.id1Contestant() == winner.getId() && duel.id2Contestant() == idToPlayer(loserId).getId()) ||
+                    (duel.id1Contestant() == idToPlayer(loserId).getId() && duel.id2Contestant() == winner.getId())) {
+                    foundDuel = duel;
+                    break;
+                }
+            }
+            if (foundDuel != null) {
+                duels.remove(foundDuel);
+                duels.add(new Duel(foundDuel.id1Contestant(), foundDuel.id2Contestant(), foundDuel.number(), foundDuel.id(), foundDuel.weightCategory(), winner.id()));
+            }
         }
     }
 
     @Override
-    public Set<Player> getCurrentPlayers() {
+    public Set<User> getCurrentPlayers() {
         return Set.of(idToPlayer(currentColumn), idToPlayer(currentRow));
     }
 
@@ -124,7 +182,7 @@ public class AllVsAll implements MatchingSystem {
         return mostWins;
     }
 
-    public Map<Player, Integer> getPlayerWins() {
+    public Map<User, Integer> getPlayerWins() {
         return playerWins;
     }
 

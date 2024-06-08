@@ -107,12 +107,12 @@ public class TreeBracket implements MatchingSystem {
         if (arrayTree.get(index1) == null || arrayTree.get(index2) == null) {
             throw new IllegalArgumentException("Cannot swap with null");
         }
-        Player temp = arrayTree.get(index1);
+        User temp = arrayTree.get(index1);
         arrayTree.set(index1, arrayTree.get(index2));
         arrayTree.set(index2, temp);
     }
 
-    public List<Player> getArrayTree() {
+    public List<User> getArrayTree() {
         return arrayTree;
     }
 }
