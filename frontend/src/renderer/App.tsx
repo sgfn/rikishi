@@ -13,6 +13,7 @@ import WeightInForm from '../components/WeightInForm';
 import CategoryToLadder from '../components/CategoryToLadder.js';
 import ContestantsCategoryList from '../components/ContestantsCategoryList.js';
 import ChangeCategoryForm from '../components/ChangeCategoryForm.js';
+import TournamentBracket from "../components/TournamentBracket";
 export default function App() {
   // TODO: this healthcheck should be called periodically
   useEffect(() => {
@@ -45,6 +46,7 @@ export default function App() {
             path="/contestantsWeight/:category"
             element={<ContestantsCategoryList />}
           />
+          <Route exact path="/bracket/:weightCategory" element={<TournamentBracket/>} />
         </Routes>
       </Router>
     </div>

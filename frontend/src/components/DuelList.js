@@ -10,7 +10,7 @@ function DuelList() {
     data: data,
     isPending,
     error,
-  } = useFetch(`${config.backendUrl}/duels`);
+  } = useFetch(`${config.backendUrl}/duels/${category}`);
   const history = useNavigate();
 
   const handleExit = () => {
