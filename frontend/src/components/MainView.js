@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import './MainView.css';
 import startPhoto from '../../assets/sumuStart.jpg';
 import { useState } from 'react';
+import config from '../config.js';
 
 function MainView() {
   const navigator = useNavigate();
   const [uploadStatus, setUploadStatus] = useState(null);
+  const [inputValue, setInputValue] = useState('');
 
   const handleConstants = () => {
     navigator('/contestants');
@@ -16,44 +18,43 @@ function MainView() {
   const handleRaport = () => {
     navigator('/ladder');
   };
-  const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const file = event.target.files[0].path; // Access the selected file
+    setInputValue(file);
+    console.log(file);
   };
 
-  const handleUpload = () => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const csvContent = event.target.result;
+  const handleUpload = async () => {
+    if (inputValue) {
+      const requestBody = {
+        path: inputValue,
+      };
 
-        const requestBody = {
-          path: csvContent,
-        };
-
-        try {
-          const response = await fetch('/contestants/import-csv', {
+      try {
+        const response = await fetch(
+          `${config.backendUrl}/contestants/import-csv`,
+          {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestBody),
-          });
+          },
+        );
 
-          if (response.ok) {
-            setUploadStatus('File uploaded successfully');
-          } else {
-            setUploadStatus('Failed to upload file');
-          }
-        } catch (error) {
-          setUploadStatus('Error uploading file');
-          console.error('Error uploading file:', error);
+        if (response.ok) {
+          setUploadStatus('File uploaded successfully');
+        } else {
+          setUploadStatus('Failed to upload file');
         }
-      };
-      reader.readAsText(file);
+      } catch (error) {
+        setUploadStatus('Error uploading file');
+        console.error('Error uploading file:', error);
+      }
     }
   };
+
   return (
     <div className="main-view">
       <h2>Welcome to the sumo competition!</h2>
@@ -70,12 +71,7 @@ function MainView() {
         </button>
       </div>
       <div className="upload-container">
-        <input
-          className="file-input"
-          type="file"
-          accept=".csv"
-          onChange={handleFileChange}
-        />
+        <input type="file" className="file-input" onChange={handleFileChange} />
         <button onClick={handleUpload} type="button">
           Upload CSV
           {uploadStatus && <p>{uploadStatus}</p>}
