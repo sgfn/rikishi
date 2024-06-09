@@ -91,23 +91,15 @@ public class ContestantsController {
         );
     }
 
-    @GetMapping("/contestants/filter")
-    public Contestants filterContestants(
-        @RequestParam(required = false) Double minWeight,
-        @RequestParam(required = false) Double maxWeight,
-        @RequestParam(required = false) String sex,
-        @RequestParam(required = false) Integer minAge,
-        @RequestParam(required = false) Integer maxAge) {
-        Stream<User> filteredUsers = userService.filterUsers(minWeight, maxWeight, sex, minAge, maxAge);
-        return new Contestants(filteredUsers.map(User::toJson).collect(Collectors.toList()));
-    }
-
     @PostMapping("/contestants/import-csv")
     public void importCSV(
-        @RequestBody String path
+        @RequestBody Map<String, String> fields
     ) {
+        if (!fields.containsKey("path"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid format: 'path' key is obligatory");
+
         try {
-            userService.importFromFile(Path.of(path));
+            userService.importFromFile(Path.of(fields.get("path")));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

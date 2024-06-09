@@ -1,15 +1,13 @@
-package backend.matching.systems;
+package com.rikishi.rikishi.system.matching;
 
 public enum OctetRoundName {
-    FINAL,
-    SEMI_FINAL,
-    FIRST_FIGHT;
+    FINAL, SEMI_FINAL, FIRST_FIGHT;
 
     public int getIndexBound() {
         return switch (this) {
-            case FIRST_FIGHT -> 1;
+            case FIRST_FIGHT -> 7;
             case SEMI_FINAL -> 3;
-            case FINAL -> 7;
+            case FINAL -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + this);
         };
     }

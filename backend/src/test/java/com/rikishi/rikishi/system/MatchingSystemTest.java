@@ -1,15 +1,5 @@
 package com.rikishi.rikishi.system;
 
-import com.rikishi.rikishi.model.User;
-import com.rikishi.rikishi.system.MatchingSystem;
-import com.rikishi.rikishi.system.TreeBracket;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.*;
-
 // TODO: rewrite to utilise the User class
 
 // class MatchingSystemTest {

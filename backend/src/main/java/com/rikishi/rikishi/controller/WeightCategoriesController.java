@@ -1,5 +1,6 @@
 package com.rikishi.rikishi.controller;
 
+import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.model.entity.WeightCategories;
 import com.rikishi.rikishi.provider.ResConfigProvider;
 
@@ -18,7 +19,7 @@ public class WeightCategoriesController {
     public WeightCategories getWeightCategories() {
         return new WeightCategories(
             resConfigProvider.getWeightClasses().stream()
-                .map(weightClass -> weightClass.name()).toList()
+                .map(WeightClass::name).toList()
         );
     }
 }
