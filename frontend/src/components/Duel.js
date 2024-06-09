@@ -22,7 +22,7 @@ function Duel() {
   } = useFetch(`${config.backendUrl}/contestants/${id1Contestant}`);
 
   const { data: duel, loading } = useFetch(
-    `${config.backendUrl}/duels/${duelId}`,
+    `${config.backendUrl}/duels/curr/${duelId}`,
     [],
     { suspense: true },
   );
@@ -33,7 +33,8 @@ function Duel() {
 
   useEffect(() => {
     if (!loading && duel) {
-      const winnerExists = duel.winner !== '' && duel.winner !== undefined && duel.winner !== -1;
+      const winnerExists =
+        duel.winner !== '' && duel.winner !== undefined && duel.winner !== -1;
       setIsWinnerSelected(winnerExists);
     }
     if (!loading && duel && duel.winner == contestant1.id) {

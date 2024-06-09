@@ -29,17 +29,17 @@ function ContestansCategoryList() {
     // COMUNICATE WITH BACKEND
     // trzeba wziac pod uwage w ktorej stronie drabonki jest zawodnik i czy jest zaznaczona opcja
     // kazdy z kazdym i na tej podstawie wygernowac drabinke
-      //
-      // OK, zróbcie POST pod /duels/generateLadder
-      //    ze strukturą:
-      //      {
-      //        "weightCategory": "Men Heavy-Weight",
-      //        "firstBracketContestant": 2,            // id lub null
-      //        "secondBracketContestant": null         // id lub null
-      //      }
-      //   Desygnować można (nie trzeba) po jednym zawodniku do każdej ze stron.
-      //   Nie robimy zaznaczania opcji każdy z każdym,
-      //    mamy predefiniowane zasady dla danej liczby zawodników
+    //
+    // OK, zróbcie POST pod /duels/generateLadder
+    //    ze strukturą:
+    //      {
+    //        "weightCategory": "Men Heavy-Weight",
+    //        "firstBracketContestant": 2,            // id lub null
+    //        "secondBracketContestant": null         // id lub null
+    //      }
+    //   Desygnować można (nie trzeba) po jednym zawodniku do każdej ze stron.
+    //   Nie robimy zaznaczania opcji każdy z każdym,
+    //    mamy predefiniowane zasady dla danej liczby zawodników
   };
 
   const [selected, setSelected] = useState([]);
@@ -57,7 +57,11 @@ function ContestansCategoryList() {
 
   const handleSave = () => {
     const contestantPairs = generatePairs(selected);
-    setPairs((prevPairs) => [...prevPairs, ...contestantPairs]);
+    const existingPairsSet = new Set(pairs.map((pair) => JSON.stringify(pair)));
+    const uniqueNewPairs = contestantPairs.filter(
+      (pair) => !existingPairsSet.has(JSON.stringify(pair)),
+    );
+    setPairs((prevPairs) => [...prevPairs, ...uniqueNewPairs]);
     setSelected([]);
   };
 
@@ -86,7 +90,8 @@ function ContestansCategoryList() {
         <div>
           <ul>
             {pairs.map((pair, index) => (
-              <li key={index}>{`${pair[0]} and ${pair[1]}`}
+              <li key={index}>
+                {`${pair[0]} and ${pair[1]}`}
                 <button
                   className="remove-button"
                   onClick={() => handleRemove(index)}
