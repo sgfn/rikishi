@@ -42,30 +42,19 @@ public class DuelsController {
         );
     }
 
-    @GetMapping("/duels/curr")
-    public Duels getCurrentDuels() {
-        return new Duels(
-            fightService.getCurrFights().map(Fight::toJson).toList()
-        );
-    }
+    @GetMapping("/duels/{weightCategory}/{id}")
+    public Duel getDuel(@PathVariable Long id, @PathVariable String weightCategory) {
 
-    @GetMapping("/duels")
-    public Duels getDuels() {
-        return new Duels(
-            fightService.getAllFights().map(Fight::toJson).toList()
-        );
-    }
-
-    @GetMapping("/duels/{id}")
-    public Duel getDuel(@PathVariable Long id) {
-        return fightService.getFightById(id).orElseThrow().toJson();
+        return fightService.getFightById(id, resConfigProvider.getWeightClassByName(weightCategory).orElseThrow())
+            .orElseThrow().toJson();
     }
 
     // can update winner only
-    @PatchMapping("/duels/{id}")
-    public void patchDuel(@RequestBody Map<String, String> fields, @PathVariable Long id) {
+    @PatchMapping("/duels/{weightCategory}/{id}")
+    public void patchDuel(@RequestBody Map<String, String> fields, @PathVariable Long id, @PathVariable String weightCategory) {
 //        do zmiany
-        Fight fight = fightService.getFightById(id).orElseThrow();
+        Fight fight = fightService.getFightById(id, resConfigProvider.getWeightClassByName(weightCategory).orElseThrow())
+            .orElseThrow();
 
         Fight newFight = new Fight(
             fight.id(),
@@ -79,6 +68,20 @@ public class DuelsController {
         );
 
         fightService.updateFight(newFight);
+    }
+
+    @GetMapping("/duels/curr")
+    public Duels getCurrentDuels() {
+        return new Duels(
+            fightService.getCurrFights().map(Fight::toJson).toList()
+        );
+    }
+
+    @GetMapping("/duels")
+    public Duels getDuels() {
+        return new Duels(
+            fightService.getAllFights().map(Fight::toJson).toList()
+        );
     }
 
     @PostMapping("/duels/generateLadder")

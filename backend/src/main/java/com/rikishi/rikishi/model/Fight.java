@@ -2,6 +2,8 @@ package com.rikishi.rikishi.model;
 
 import com.rikishi.rikishi.model.entity.Duel;
 
+import java.util.Objects;
+
 public record Fight(
     long id,
     User firstUser,
@@ -48,6 +50,6 @@ public record Fight(
 
     @Override
     public Long getId() {
-        return id;
+        return (long) Objects.hash(this.id, this.weightClass);
     }
 }

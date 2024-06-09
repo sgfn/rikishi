@@ -57,8 +57,8 @@ public class FightService implements AutoCloseable {
             .flatMap(system -> system.getAllFights().stream());
     }
 
-    public Optional<Fight> getFightById(long id) {
-        return fightRepository.findById(id);
+    public Optional<Fight> getFightById(long id, WeightClass weightClass) {
+        return fightRepository.findById((long) Objects.hash(id, weightClass));
     }
 
     @Override
