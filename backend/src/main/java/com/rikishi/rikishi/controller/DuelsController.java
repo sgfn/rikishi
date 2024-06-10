@@ -72,6 +72,7 @@ public class DuelsController {
 
     @GetMapping("/duels/curr")
     public Duels getCurrentDuels() {
+        fightService.tryReload();
         return new Duels(
             fightService.getCurrFights().map(Fight::toJson).toList()
         );

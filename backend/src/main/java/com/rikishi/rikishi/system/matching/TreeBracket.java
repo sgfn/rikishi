@@ -99,6 +99,11 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
         maxEntry.ifPresent(entry -> weightCategory = entry.getKey());
     }
 
+    @Override
+    public boolean playersLoaded() {
+        return (!arrayTree.isEmpty());
+    }
+
     public void printBracket() {
         if (arrayTree.isEmpty()) {
             System.out.println("Empty Bracket.");
