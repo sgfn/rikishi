@@ -48,13 +48,14 @@ public class FightService implements AutoCloseable {
 
     public void tryReload() {
         for (WeightClass weightClass : resConfigProvider.getWeightClasses()) {
-            if (tournaments.containsKey(weightClass) && tournaments.get(weightClass).playersLoaded()) {
+            if (tournaments.containsKey(weightClass) && !tournaments.get(weightClass).playersLoaded()) {
                 try {
                     Collection<User> players = userService.getUsers().filter(weightClass::isValid).toList();
                     MatchingSystem_II matchingSystem = SystemPicker.pickSystem(players.size());
                     matchingSystem.loadPlayers(players);
                     fightRepository.addAll(matchingSystem.getAllFights());
                     tournaments.put(weightClass, matchingSystem);
+                    System.out.println("\u001B[32m" + weightClass.name() + " added\u001B[0m");
                 } catch (IllegalArgumentException e) {
                     System.err.println(weightClass.name() + "\t\t\tunabled to reload");
                 }
