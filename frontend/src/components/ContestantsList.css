@@ -93,3 +93,23 @@ img {
 .loading-message {
   text-align: center;
 }
+.filters{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20%;
+  font-size: 80px;
+}
+.filters select,
+.filters input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filters select {
+  width: 150px;
+}
+
+.filters input {
+  width: 100px;
+}
