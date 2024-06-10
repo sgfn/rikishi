@@ -3,14 +3,13 @@ package com.rikishi.rikishi.system.matching;
 import com.rikishi.rikishi.model.Fight;
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.WeightClass;
-import com.rikishi.rikishi.model.entity.Duel;
 
 import java.util.*;
 
 public class TreeBracket implements MatchingSystem, MatchingSystem_II {
     private final List<User> arrayTree = new ArrayList<>(15);
     private int actualMatch;
-    private OctetRoundName currentRound;
+    private TreeRoundName currentRound;
     private WeightClass weightCategory;
 
     @Override
@@ -18,7 +17,7 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
         if (arrayTree.get(actualMatch) == null) {
             throw new RuntimeException("No winner of the round");
         }
-        if (currentRound == OctetRoundName.FINAL) throw new RuntimeException("There is nothing afet finals");
+        if (currentRound == TreeRoundName.FINAL) throw new RuntimeException("There is nothing afet finals");
         if (actualMatch + 1 < currentRound.getIndexBound()) actualMatch++;
         else {
             currentRound = currentRound.goUp();
@@ -59,8 +58,8 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
     public void loadPlayers(Collection<User> players) {
         List<User> playersArray = new ArrayList<>(players);
         Collections.shuffle(playersArray);
-        currentRound = OctetRoundName.FIRST_FIGHT;
-        actualMatch = OctetRoundName.FIRST_FIGHT.getIndexStart();
+        currentRound = TreeRoundName.FIRST_FIGHT;
+        actualMatch = TreeRoundName.FIRST_FIGHT.getIndexStart();
         if (players.size() == 8) {
             for (int i = 0; i < players.size() * 2 - 1; i++) {
                 arrayTree.add(null);
@@ -76,8 +75,11 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
             for (int i = 0, k = 0; k < players.size(); i = ((i + 4) % 7), k++) {
                 arrayTree.set(7 + i, playersArray.get(k));
             }
-        } else {
-            throw new RuntimeException("implement only for 6 to 8 players");
+        } else if(players.size() == 16){
+
+        }
+        else{
+            throw new RuntimeException("implement only for 6 to 16 players");
         }
 
         Map<WeightClass, Integer> weightCategoryFrequency = new HashMap<>();
