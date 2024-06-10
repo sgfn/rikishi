@@ -10,11 +10,9 @@ public class SystemPicker {
             throw new IllegalArgumentException("Number of players must be greater than 0");
         } else if (numberOfPlayers <= 5) {
             throw new IllegalArgumentException("System Missing");
-        } else if (numberOfPlayers <= 8) {
-            return new TreeBracket();
         } else if (numberOfPlayers <= 16) {
-            throw new IllegalArgumentException("System Missing");
+            return new TreeBracket();
         }
-        throw new IllegalArgumentException("Too many players");
+        throw new IllegalArgumentException(numberOfPlayers + " is too many players");
     }
 }

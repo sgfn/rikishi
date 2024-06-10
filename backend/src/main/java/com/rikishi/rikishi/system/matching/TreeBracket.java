@@ -60,12 +60,12 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
         Collections.shuffle(playersArray);
         currentRound = TreeRoundName.FIRST_FIGHT;
         actualMatch = TreeRoundName.FIRST_FIGHT.getIndexStart();
-        if (players.size() == 8) {
+        if (players.size() == 8 || players.size() == 16) {
             for (int i = 0; i < players.size() * 2 - 1; i++) {
                 arrayTree.add(null);
             }
             Iterator<User> it = playersArray.iterator();
-            for (int i = 7; i < 15 && it.hasNext(); i++) {
+            for (int i = 7; i < 7 + players.size() && it.hasNext(); i++) {
                 arrayTree.set(i, it.next()); // Assign the next player
             }
         } else if (5 < players.size() && players.size() < 8) {
@@ -75,10 +75,15 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
             for (int i = 0, k = 0; k < players.size(); i = ((i + 4) % 7), k++) {
                 arrayTree.set(7 + i, playersArray.get(k));
             }
-        } else if(players.size() == 16){
-
-        }
-        else{
+        } else if (8 < players.size() && players.size() < 16) {
+            for (int i = 0; i < 31; i++) {
+                arrayTree.add(null);
+            }
+            for (int i = 0, k = 0; k < players.size(); i = ((i + 4) % 15), k++) {
+//                System.out.println("k="+k+"size="+players.size()+" new index=" + (15 + i));
+                arrayTree.set(15 + i, playersArray.get(k));
+            }
+        } else {
             throw new RuntimeException("implement only for 6 to 16 players");
         }
 
@@ -176,8 +181,13 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
     }
 
     public List<Fight> getAllFights() {
-        return getDuelsFromRange(0, 7);
+        return switch (arrayTree.size()) {
+            case 15 -> getDuelsFromRange(0, 7);
+            case 31 -> getDuelsFromRange(0, 15);
+            default -> throw new IllegalStateException("Unexpected value: " + arrayTree.size());
+        };
     }
+
 
     public List<Fight> getCurrentFights() {
         return getDuelsFromRange(currentRound.getIndexStart(), currentRound.getIndexBound());
