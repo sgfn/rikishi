@@ -1,13 +1,17 @@
-package com.rikishi.rikishi.system;
+package com.rikishi.rikishi.system.matching;
 
+import com.rikishi.rikishi.model.Fight;
 import com.rikishi.rikishi.model.User;
+import com.rikishi.rikishi.model.WeightClass;
+import com.rikishi.rikishi.model.entity.Duel;
 
 import java.util.*;
 
-public class TreeBracket implements MatchingSystem {
+public class TreeBracket implements MatchingSystem, MatchingSystem_II {
     private final List<User> arrayTree = new ArrayList<>(15);
     private int actualMatch;
     private OctetRoundName currentRound;
+    private WeightClass weightCategory;
 
     @Override
     public void nextMatch() {
@@ -43,6 +47,14 @@ public class TreeBracket implements MatchingSystem {
         return players;
     }
 
+    private Set<User> getPlayersByFromDuelID(int duelId) {
+        int tmp = actualMatch;
+        actualMatch = duelId;
+        Set<User> players = getCurrentPlayers();
+        actualMatch = tmp;
+        return players;
+    }
+
     @Override
     public void loadPlayers(Collection<User> players) {
         List<User> playersArray = new ArrayList<>(players);
@@ -67,6 +79,24 @@ public class TreeBracket implements MatchingSystem {
         } else {
             throw new RuntimeException("implement only for 6 to 8 players");
         }
+
+        Map<WeightClass, Integer> weightCategoryFrequency = new HashMap<>();
+        for (User user : players) {
+            WeightClass userCategory = user.weightClass();
+            if (weightCategoryFrequency.containsKey(userCategory)) {
+                weightCategoryFrequency.put(
+                    userCategory,
+                    weightCategoryFrequency.get(userCategory) + 1
+                );
+            } else {
+                weightCategoryFrequency.put(userCategory, 1);
+            }
+        }
+        Optional<Map.Entry<WeightClass, Integer>> maxEntry = weightCategoryFrequency.entrySet()
+            .stream()
+            .max(Map.Entry.comparingByValue());
+
+        maxEntry.ifPresent(entry -> weightCategory = entry.getKey());
     }
 
     public void printBracket() {
@@ -114,5 +144,54 @@ public class TreeBracket implements MatchingSystem {
 
     public List<User> getArrayTree() {
         return arrayTree;
+    }
+
+    private List<Fight> getDuelsFromRange(int a, int b) {
+        List<Fight> duels = new ArrayList<>();
+        for (int i = a; i < b; i++) {
+            ArrayList<User> players = new ArrayList<>(getPlayersByFromDuelID(i));
+            long winnerId = (arrayTree.get(i) == null) ? -1 : arrayTree.get(i).id();
+            if (players.size() == 1) {
+                winnerId = players.get(0).id();
+            }
+            while (players.size() < 2) players.add(null);
+            int score1 = (winnerId == players.get(0).id()) ? 1 : 0;
+            int score2 = (winnerId == players.get(1).id()) ? 1 : 0;
+            duels.add(new Fight(
+                i,
+                players.get(0),
+                players.get(1),
+                0,
+                score1,
+                score2,
+                weightCategory,
+                winnerId
+            ));
+        }
+        return duels;
+    }
+
+    public List<Fight> getAllFights() {
+        return getDuelsFromRange(0, 7);
+    }
+
+    public List<Fight> getCurrentFights() {
+        return getDuelsFromRange(currentRound.getIndexStart(), currentRound.getIndexBound());
+    }
+
+    public void updateFight(Fight fight) {
+        if (fight.winnerId() == -1) throw new RuntimeException("Fight is not resolved");
+        long winnerId = fight.winnerId();
+        actualMatch = (int) fight.id();
+        User winner = (User) getCurrentPlayers().stream().filter(player -> player.id() == winnerId).toArray()[0];
+        chooseWinner(winner);
+
+        for (int id = currentRound.getIndexStart(); id <= currentRound.getIndexBound(); id++) {
+            if (arrayTree.get(id) == null) {
+                return;
+            }
+        }
+        currentRound = currentRound.goUp();
+        actualMatch = currentRound.getIndexStart();
     }
 }
