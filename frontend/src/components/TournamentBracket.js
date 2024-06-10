@@ -1,17 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import { SingleEliminationBracket, Match, SVGViewer } from '@g-loot/react-tournament-brackets';
+import useWindowSize from "@g-loot/react-tournament-brackets/dist/cjs/hooks/use-window-size";
 import useFetch from '../hooks/useFetch';
 import config from '../config';
+import './TournamentBracket.css';
+import exitIcon from "../../assets/icons/exit.png";
 
 function TournamentBracket() {
   const [matches, setMatches] = useState(null);
+  const [duels, setDuels] = useState([]);
   const { weightCategory } = useParams();
+  const history = useNavigate();
   const {
-    data: duels,
+    data,
     isPending,
     error
   } = useFetch(`${config.backendUrl}/duels/${weightCategory}`);
+
+  const handleExit = () => {
+    console.log('Exit button pressed');
+    history(`/contestantsWeight/${weightCategory}`);
+  };
+
+  const handleGoBack = () => {
+    history(`/`,{state:{bracketSubmitted: true, weightCategory: weightCategory}});
+  };
 
   function addParticipant(id, winner, name, score) {
     const participant = {};
@@ -76,9 +90,7 @@ function TournamentBracket() {
 
   // ten hook służy do aktualizowania matches
   useEffect(() => {
-    if(duels != null){
-      console.log(duels);
-      /*
+    if (duels.length > 0) {
       const matchesList = [];
 
       for (const duel of duels) {
@@ -93,41 +105,58 @@ function TournamentBracket() {
         match.tournamentRoundText = roundNumber(match.id, duels.length);
         const todayDate = new Date();
         match.startTime = `${todayDate.getDate()}-${todayDate.getMonth()}-${todayDate.getFullYear()}`;
-        if(duel.winner === -1) {
+        if(duel.winnerId === -1) {
           match.state = 'SCHEDULED';
         } else {
           match.state = 'SCORE_DONE';
         }
         match.participants = [];
 
-        if(duel.idContestant1 != null) {
-          match.participants.push(addParticipant(duel.idContestant1, duel.winner, duel.name1, duel.score1));
+        if(duel.id1Contestant != null) {
+          match.participants.push(addParticipant(duel.id1Contestant, duel.winnerId, duel.name1, duel.score1));
         }
-        if(duel.idContestant2 != null) {
-          match.participants.push(addParticipant(duel.idContestant2, duel.winner, duel.name2, duel.score2));
+        if(duel.id2Contestant != null) {
+          match.participants.push(addParticipant(duel.id2Contestant, duel.winnerId, duel.name2, duel.score2));
         }
-
+        console.log(match);
         matchesList.push(match);
       }
-      setMatches(matchesList);*/
-
+      setMatches(matchesList);
     }
-
   }, [duels]);
+
+  useEffect(() => {
+    if (data != null) {
+      console.log(data);
+      setDuels(data.duels);
+    }
+  }, [data]);
+
+  const [width, height] = useWindowSize();
 
   return (
     <>
-      {matches && (
-        <SingleEliminationBracket
-          matches={matches}
-          matchComponent={Match}
-          svgWrapper={({ children, ...props }) => (
-            <SVGViewer width={500} height={500} {...props}>
-              {children}
-            </SVGViewer>
-          )}
-        />
-      )}
+      <button type="button" className="exit-button" onClick={handleExit}>
+        <img src={exitIcon} alt="exit-icon" className="exit-icon"/>
+      </button>
+      <h2>Tournament Bracket</h2>
+      <div className="tournament-bracket">
+
+        {matches && (
+          <SingleEliminationBracket
+            matches={matches}
+            matchComponent={Match}
+            svgWrapper={({children, ...props}) => (
+              <SVGViewer width={width} height={height} {...props}>
+                {children}
+              </SVGViewer>
+            )}
+          />
+        )}
+      </div>
+      <button className="button" type="button" onClick={handleGoBack}>
+        Save tournament ladder
+      </button>
     </>
   );
 }
