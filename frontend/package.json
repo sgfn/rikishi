@@ -69,6 +69,7 @@
     }
   },
   "dependencies": {
+    "@g-loot/react-tournament-brackets": "^1.0.31-rc",
     "axios": "^1.6.8",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",

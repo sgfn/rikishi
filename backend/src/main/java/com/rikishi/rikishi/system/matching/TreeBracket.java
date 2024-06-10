@@ -155,8 +155,10 @@ public class TreeBracket implements MatchingSystem, MatchingSystem_II {
                 winnerId = players.get(0).id();
             }
             while (players.size() < 2) players.add(null);
-            int score1 = (winnerId == players.get(0).id()) ? 1 : 0;
-            int score2 = (winnerId == players.get(1).id()) ? 1 : 0;
+            long player1_id = players.get(0) != null ? players.get(0).id() : -2;
+            long player2_id = players.get(1) != null ? players.get(1).id() : -2;
+            int score1 = (winnerId == player1_id) ? 1 : 0;
+            int score2 = (winnerId == player2_id) ? 1 : 0;
             duels.add(new Fight(
                 i,
                 players.get(0),

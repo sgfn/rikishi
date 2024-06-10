@@ -14,6 +14,7 @@ function ContestansCategoryList() {
   } = useFetch(`${config.backendUrl}/contestants`);
   const history = useNavigate();
   const [everyWithEvery, setEveryWithEvery] = useState(false);
+  const [pairs, setPairs] = useState([]);
 
   const handleExit = () => {
     // eslint-disable-next-line no-console
@@ -24,7 +25,7 @@ function ContestansCategoryList() {
   const handleEveryWithEveryChange = (event) => {
     setEveryWithEvery(event.target.checked);
   };
-  const handleSubmitLadder = () => {
+  const handleSubmitLadder = async () => {
     // Implement your submit logic here
     // COMUNICATE WITH BACKEND
     // trzeba wziac pod uwage w ktorej stronie drabonki jest zawodnik i czy jest zaznaczona opcja
@@ -40,10 +41,46 @@ function ContestansCategoryList() {
     //   Desygnować można (nie trzeba) po jednym zawodniku do każdej ze stron.
     //   Nie robimy zaznaczania opcji każdy z każdym,
     //    mamy predefiniowane zasady dla danej liczby zawodników
+    let requestBody = {}
+    if(pairs.length >= 1) {
+      const pair = pairs[0];
+      requestBody = {
+        weightCategory: category,
+        firstBracketContestant: pair[0], // id lub null
+        secondBracketContestant: pair[1], // id lub null
+      };
+    } else {
+      requestBody = {
+        weightCategory: category,
+        firstBracketContestant: -1, // id lub null
+        secondBracketContestant: -1, // id lub null
+      };
+    }
+
+    try {
+      const response = await fetch(
+        `${config.backendUrl}/duels/generateLadder`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify( requestBody ),
+        },
+      );
+
+      if (response.ok) {
+        history(`/bracket/${category}`);
+      } else {
+        console.log('Failed to generate ladder');
+      }
+    } catch (postError) {
+      console.error('Error while generating ladder:', postError);
+    }
   };
 
   const [selected, setSelected] = useState([]);
-  const [pairs, setPairs] = useState([]);
+
 
   const generatePairs = (selectedContestants) => {
     const pairs = [];
