@@ -35,10 +35,10 @@ public record Fight(
 
     public Duel toJson() {
         return new Duel(
-            firstUser.id(),
-            firstUser.name(),
-            secondUser.id(),
-            secondUser.name(),
+            firstUser != null ? firstUser.id() : -1,
+            firstUser != null ? firstUser.name() : "",
+            secondUser != null ? secondUser.id() : -1,
+            secondUser != null ? secondUser.name() : "",
             number,
             score1,
             score2,
