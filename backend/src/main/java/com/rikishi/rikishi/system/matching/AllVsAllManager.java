@@ -1,4 +1,4 @@
-package com.rikishi.rikishi.system;
+package com.rikishi.rikishi.system.matching;
 
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.entity.Duel;

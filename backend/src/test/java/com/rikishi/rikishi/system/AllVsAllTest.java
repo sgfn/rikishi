@@ -4,6 +4,7 @@ import com.rikishi.rikishi.model.Range;
 import com.rikishi.rikishi.model.Sex;
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.WeightClass;
+import com.rikishi.rikishi.system.matching.AllVsAllManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

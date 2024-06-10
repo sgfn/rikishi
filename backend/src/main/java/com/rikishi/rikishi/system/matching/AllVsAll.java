@@ -1,4 +1,4 @@
-package com.rikishi.rikishi.system;
+package com.rikishi.rikishi.system.matching;
 
 
 import com.rikishi.rikishi.model.User;
@@ -68,8 +68,12 @@ public class AllVsAll implements MatchingSystem {
 
             Duel duel = new Duel(
                 player1.id(),
+                player1.name(),
                 player2.id(),
+                player2.name(),
                 duelNumber,
+                results.get(getPlayerId(player1)).get(getPlayerId(player2)).get(0),
+                results.get(getPlayerId(player1)).get(getPlayerId(player2)).get(1),
                 duelIdCounter++,
                 player1.weightClass().name() + " - " + player1.sex().toString().charAt(0),
                 -1
@@ -168,7 +172,17 @@ public class AllVsAll implements MatchingSystem {
             }
             if (foundDuel != null) {
                 duels.remove(foundDuel);
-                duels.add(new Duel(foundDuel.id1Contestant(), foundDuel.id2Contestant(), foundDuel.number(), foundDuel.id(), foundDuel.weightCategory(), winner.id()));
+                if (Objects.equals(winner.name(), foundDuel.name1())) {
+                    duels.add(new Duel(foundDuel.id1Contestant(), foundDuel.name1(),
+                        foundDuel.id2Contestant(), foundDuel.name2(),
+                        foundDuel.number(), results.get(winnerId).get(loserId).get(0), results.get(winnerId).get(loserId).get(1),
+                        foundDuel.id(), foundDuel.weightCategory(), winner.id()));
+                } else if (Objects.equals(winner.name(), foundDuel.name2())) {
+                    duels.add(new Duel(foundDuel.id1Contestant(), foundDuel.name1(),
+                        foundDuel.id2Contestant(), foundDuel.name2(),
+                        foundDuel.number(), results.get(loserId).get(winnerId).get(0), results.get(loserId).get(winnerId).get(1),
+                        foundDuel.id(), foundDuel.weightCategory(), winner.id()));
+                }
             }
         }
     }
