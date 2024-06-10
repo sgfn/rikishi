@@ -94,7 +94,11 @@ function ContestansCategoryList() {
 
   const handleSave = () => {
     const contestantPairs = generatePairs(selected);
-    setPairs((prevPairs) => [...prevPairs, ...contestantPairs]);
+    const existingPairsSet = new Set(pairs.map((pair) => JSON.stringify(pair)));
+    const uniqueNewPairs = contestantPairs.filter(
+      (pair) => !existingPairsSet.has(JSON.stringify(pair)),
+    );
+    setPairs((prevPairs) => [...prevPairs, ...uniqueNewPairs]);
     setSelected([]);
   };
 
@@ -123,7 +127,8 @@ function ContestansCategoryList() {
         <div>
           <ul>
             {pairs.map((pair, index) => (
-              <li key={index}>{`${pair[0]} and ${pair[1]}`}
+              <li key={index}>
+                {`${pair[0]} and ${pair[1]}`}
                 <button
                   className="remove-button"
                   onClick={() => handleRemove(index)}
