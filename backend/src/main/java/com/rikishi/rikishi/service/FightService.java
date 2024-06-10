@@ -1,11 +1,8 @@
 package com.rikishi.rikishi.service;
 
-import java.io.IOException;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.*;
 
-// import com.rikishi.rikishi.loader.FightLoader;
 import com.rikishi.rikishi.model.User;
 import com.rikishi.rikishi.model.WeightClass;
 import com.rikishi.rikishi.provider.ResConfigProvider;
@@ -45,6 +42,8 @@ public class FightService implements AutoCloseable {
     }
 
     public Stream<Fight> getAllCategoryFights(WeightClass weightClass) {
+        if (!tournaments.containsKey(weightClass))
+            return Stream.empty();
         return tournaments.get(weightClass).getAllFights().stream();
     }
 
