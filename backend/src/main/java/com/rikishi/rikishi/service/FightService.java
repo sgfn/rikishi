@@ -33,6 +33,7 @@ public class FightService implements AutoCloseable {
                 matchingSystem.loadPlayers(players);
                 fightRepository.addAll(matchingSystem.getAllFights());
                 tournaments.put(weightClass, matchingSystem);
+                System.out.println("\u001B[32m" + weightClass.name() + "\u001B[0m");
             } catch (IllegalArgumentException e) {
                 System.err.println(weightClass.name() + "\t\t\t" + e.getMessage());
             }

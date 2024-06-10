@@ -74,15 +74,15 @@ public class DuelsController {
 
     @GetMapping("/duels/curr")
     public Duels getCurrentDuels() {
-        Duels duels = new Duels(new ArrayList<>());
-        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
-        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
-        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
-        return duels;
+//        Duels duels = new Duels(new ArrayList<>());
+//        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
+//        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
+//        duels.add(new Duel(0, "abc", 1, "xyz", 0, 0,0 ,1, "a", 0));
+//        return duels;
 //        fightService.tryReload();
-//        return new Duels(
-//            fightService.getCurrFights().map(Fight::toJson).toList()
-//        );
+        return new Duels(
+            fightService.getCurrFights().map(Fight::toJson).toList()
+        );
     }
 
     @GetMapping("/duels")
