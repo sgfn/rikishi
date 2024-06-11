@@ -1,13 +1,23 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './MainView.css';
+import {useEffect, useState} from 'react';
 import startPhoto from '../../assets/sumuStart.jpg';
-import { useState } from 'react';
 import config from '../config.js';
 
 function MainView() {
   const navigator = useNavigate();
   const [uploadStatus, setUploadStatus] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const [bracketSubmitted, setBracketSubmitted] = useState(false);
+  const [weightCategory, setWeightCategory] = useState(null);
+
+  const bracketInfo = useLocation();
+  useEffect( () => {
+    if (bracketInfo.state != null) {
+      setBracketSubmitted(bracketInfo.state.bracketSubmitted);
+      setWeightCategory(bracketInfo.state.weightCategory);
+    }
+  }, [bracketInfo]);
 
   const handleConstants = () => {
     navigator('/contestants');
@@ -17,6 +27,10 @@ function MainView() {
   };
   const handleRaport = () => {
     navigator('/ladder');
+  };
+
+  const handleGoToBracket = () => {
+    navigator(`/bracket/${weightCategory}`);
   };
 
   const handleFileChange = (event) => {
@@ -69,6 +83,11 @@ function MainView() {
         <button onClick={handleRaport} type="button" className="goToList">
           Go to Ladder tournament
         </button>
+        {bracketSubmitted && (
+          <button onClick={handleGoToBracket} type="button" className="goToList">
+            Go to Tournament Bracket
+          </button>
+        )}
       </div>
       <div className="upload-container">
         <input type="file" className="file-input" onChange={handleFileChange} />
