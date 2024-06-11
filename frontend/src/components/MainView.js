@@ -37,7 +37,7 @@ function MainView() {
     try {
       console.log(filePath);
       const response = await fetch(
-        `${config.backendUrl}/report?saveTo=/home/krzysztof/test.pdf`,
+        `${config.backendUrl}/report?saveTo=raport.pdf`,
         {
           method: 'GET',
         },
