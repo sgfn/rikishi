@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams} from 'react-router-dom';
 import usePatchData from '../hooks/usePatchData';
 import './ChangeCategoryForm.css';
 import exitIcon from '../../assets/icons/exit.png';
+import config from '../config.js'
 
 function ChangeCategoryForm() {
   const [newWeightCategory, setNewWeightCategory] = useState("Light-weight - M");
@@ -13,7 +14,7 @@ function ChangeCategoryForm() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     response,
     patchData,
-  } = usePatchData(`http://localhost:8000/contestants/${id}`);
+  } = usePatchData(`${config.backendUrl}/contestants/${id}`);
   const history = useNavigate();
 
   const handleSubmit = (e) => {
@@ -45,12 +46,16 @@ function ChangeCategoryForm() {
             required
             onChange={(e) => setNewWeightCategory(e.target.value)}
           >
-            <option value="Light-weight - M">Light-weight</option>
-            <option value="Middle-weight - M">Middle-weight</option>
-            <option value="Heavy-weight - M">Heavy-weight</option>
-            <option value="Open-weight - M">Open-weight</option>
+            <option value="Men Heavy-weight">Light-weight</option>
+            <option value="Men Middle-weight">Middle-weight</option>
+            <option value="Jr. Men Heavy-weight">Middle-weight</option>
+            <option value="Jr. Men Middle-weight">Middle-weight</option>
+            <option value="Women Heavy-weight">Light-weight</option>
+            <option value="Women Middle-weight">Middle-weight</option>
+            <option value="Jr. Women Heavy-weight">Middle-weight</option>
+            <option value="Jr. Women Middle-weight">Middle-weight</option>
           </select>
-          <br />
+          <br/>
           {!isPending && <button type="submit">Update Category</button>}
           {isPending && <button disabled type="submit">Updating Category...</button>}
         </form>

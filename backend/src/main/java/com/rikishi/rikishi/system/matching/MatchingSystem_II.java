@@ -11,6 +11,8 @@ import java.util.List;
 public interface MatchingSystem_II {
     void loadPlayers(Collection<User> players);
 
+    boolean playersLoaded();
+
     void updateFight(Fight fight);
 
     List<Fight> getAllFights();

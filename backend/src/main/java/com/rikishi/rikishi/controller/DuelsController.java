@@ -10,6 +10,8 @@ import com.rikishi.rikishi.provider.ResConfigProvider;
 import com.rikishi.rikishi.service.FightService;
 import com.rikishi.rikishi.service.UserService;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -72,6 +74,7 @@ public class DuelsController {
 
     @GetMapping("/duels/curr")
     public Duels getCurrentDuels() {
+        fightService.tryReload();
         return new Duels(
             fightService.getCurrFights().map(Fight::toJson).toList()
         );
