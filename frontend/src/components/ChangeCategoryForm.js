@@ -6,7 +6,7 @@ import exitIcon from '../../assets/icons/exit.png';
 import config from '../config.js'
 
 function ChangeCategoryForm() {
-  const [newWeightCategory, setNewWeightCategory] = useState("Light-weight - M");
+  const [newWeightCategory, setNewWeightCategory] = useState("Men Heavy-weight");
   const { id } = useParams();
   const {
     isLoading: isPending,
@@ -19,7 +19,8 @@ function ChangeCategoryForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    patchData({ weightCategory: newWeightCategory });
+    console.log(newWeightCategory);
+    patchData({ weightClass: newWeightCategory });
     history(`/contestants/${id}`);
   };
 
@@ -46,14 +47,14 @@ function ChangeCategoryForm() {
             required
             onChange={(e) => setNewWeightCategory(e.target.value)}
           >
-            <option value="Men Heavy-weight">Light-weight</option>
-            <option value="Men Middle-weight">Middle-weight</option>
-            <option value="Jr. Men Heavy-weight">Middle-weight</option>
-            <option value="Jr. Men Middle-weight">Middle-weight</option>
-            <option value="Women Heavy-weight">Light-weight</option>
-            <option value="Women Middle-weight">Middle-weight</option>
-            <option value="Jr. Women Heavy-weight">Middle-weight</option>
-            <option value="Jr. Women Middle-weight">Middle-weight</option>
+            <option value="Men Heavy-weight">Men Heavy-weight</option>
+            <option value="Men Middle-weight">Men Middle-weight</option>
+            <option value="Jr. Men Heavy-weight">Jr. Men Heavy-weight</option>
+            <option value="Jr. Men Middle-weight">Jr. Men Middle-weight</option>
+            <option value="Women Heavy-weight">Women Heavy-weight</option>
+            <option value="Women Middle-weight">Women Middle-weight</option>
+            <option value="Jr. Women Heavy-weight">Jr. Women Heavy-weight</option>
+            <option value="Jr. Women Middle-weight">Jr. Women Middle-weight</option>
           </select>
           <br/>
           {!isPending && <button type="submit">Update Category</button>}

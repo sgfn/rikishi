@@ -16,8 +16,8 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-//    @GetMapping("/report")
-//    public void getReport(@RequestParam String saveTo) throws DocumentException, FileNotFoundException {
-//        reportService.generate(saveTo);
-//    }
+   @GetMapping("/report")
+    public void getReport(@RequestParam String saveTo) throws DocumentException, FileNotFoundException {
+        reportService.generate(saveTo);
+    }
 }
