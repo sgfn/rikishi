@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './MainView.css';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import startPhoto from '../../assets/sumuStart.jpg';
 import config from '../config.js';
 
@@ -12,7 +12,7 @@ function MainView() {
   const [weightCategory, setWeightCategory] = useState(null);
 
   const bracketInfo = useLocation();
-  useEffect( () => {
+  useEffect(() => {
     if (bracketInfo.state != null) {
       setBracketSubmitted(bracketInfo.state.bracketSubmitted);
       setWeightCategory(bracketInfo.state.weightCategory);
@@ -28,7 +28,34 @@ function MainView() {
   const handleRaport = () => {
     navigator('/ladder');
   };
+  const [filePath, setFilePath] = useState('');
 
+  const handleFileChangeRaport = (event) => {
+    setFilePath(event.target.value);
+  };
+  const handleGenerateReport = async () => {
+    try {
+      console.log(filePath);
+      const response = await fetch(
+        `${config.backendUrl}/report?saveTo=/D:/raport.pdf`,
+        {
+          method: 'GET',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to generate report');
+      }
+
+      // eslint-disable-next-line no-console
+      console.log('Report generated successfully');
+      // Additional logic can be added here, like showing a success message to the user.
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error generating report:', error);
+      // Additional error handling can be added here, like showing an error message to the user.
+    }
+  };
   const handleGoToBracket = () => {
     navigator(`/bracket/${weightCategory}`);
   };
@@ -84,7 +111,11 @@ function MainView() {
           Go to Ladder tournament
         </button>
         {bracketSubmitted && (
-          <button onClick={handleGoToBracket} type="button" className="goToList">
+          <button
+            onClick={handleGoToBracket}
+            type="button"
+            className="goToList"
+          >
             Go to Tournament Bracket
           </button>
         )}
@@ -95,6 +126,20 @@ function MainView() {
           Upload CSV
           {uploadStatus && <p>{uploadStatus}</p>}
         </button>
+        <div>
+          <input
+            type="file"
+            className="file-input"
+            onChange={handleFileChangeRaport}
+          />
+          <button
+            type="button"
+            className="generate-report-button"
+            onClick={handleGenerateReport}
+          >
+            Generate Report
+          </button>
+        </div>
       </div>
     </div>
   );
