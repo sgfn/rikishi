@@ -107,8 +107,8 @@ public class ReportGenerator {
             var f2 = fight.secondUser();
 
             addTableColumns(table, List.of(
-                new Column(String.format("%s %s", f1.name(), f1.surname()), fighterColor.apply(f1)),
-                new Column(String.format("%s %s", f2.name(), f2.surname()), fighterColor.apply(f2)),
+                f1 != null ? new Column(String.format("%s %s", f1.name(), f1.surname()), fighterColor.apply(f1)) : text(""),
+                f2 != null ? new Column(String.format("%s %s", f2.name(), f2.surname()), fighterColor.apply(f2)) : text(""),
                 text(String.valueOf(fight.number())),
                 text(String.format("%s:%s", fight.score1(), fight.score2()))
             ));
