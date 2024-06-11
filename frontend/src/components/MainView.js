@@ -107,7 +107,11 @@ function MainView() {
           {uploadStatus && <p>{uploadStatus}</p>}
         </button>
         <div>
-          <input type="file" onChange={handleFileChangeRaport} />
+          <input
+            type="file"
+            className="file-input"
+            onChange={handleFileChangeRaport}
+          />
           <button
             type="button"
             className="generate-report-button"
