@@ -21,6 +21,7 @@ public class ReportGenerator {
     private static final String DEFAULT_FONT_NAME = FontFactory.TIMES;
     private static final BaseColor WIN_COLOR = BaseColor.GREEN;
     private static final BaseColor LOOSE_COLOR = BaseColor.RED;
+    private static final BaseColor UNKNOWN_COLOR = BaseColor.LIGHT_GRAY;
 
     private final UserService userService;
     private final FightService fightService;
@@ -100,8 +101,11 @@ public class ReportGenerator {
         addTableHeader(table, List.of("Fighter 1", "Fighter 2", "Number", "Score"));
 
         fightService.getAllCategoryFights(weightClass).forEach(fight -> {
-            Function<User, BaseColor> fighterColor = fighter ->
-                fighter.id() == fight.winnerId() ? WIN_COLOR : LOOSE_COLOR;
+            Function<User, BaseColor> fighterColor = fighter -> {
+                if (fight.winnerId() == -1)
+                    return UNKNOWN_COLOR;
+                return fighter.id() == fight.winnerId() ? WIN_COLOR : LOOSE_COLOR;
+            };
 
             var f1 = fight.firstUser();
             var f2 = fight.secondUser();
@@ -113,6 +117,8 @@ public class ReportGenerator {
                 text(String.format("%s:%s", fight.score1(), fight.score2()))
             ));
         });
+
+        document.add(table);
     }
 
     private void addContestantsSection() throws DocumentException {
